@@ -1,8 +1,8 @@
 # Fullstack Discord clone using Vue & ExpressJS
 
-Stack : VueJS, NodeJS, Express, MongoDB, Docker
+### Hosted on AWS : [Discord Clone](http://13.37.217.183/)
 
-Hosted on AWS : [Discord Clone](http://13.37.217.183/)
+### Stack : VueJS, NodeJS, Express, MongoDB, Docker
 
 ## Setup
 
@@ -19,4 +19,5 @@ Running locally :
 docker-compose up
 ```
 
-now backend will be running on http://localhost/
+#### Backend will be running on http://localhost:3030 <br>
+#### Frontend will be running on http://localhost/
