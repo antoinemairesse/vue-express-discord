@@ -1,6 +1,6 @@
 # Discord clone backend
 
-Stack : NodeJS, Express, MongoDB
+Stack : NodeJS, Express, MongoDB, SocketIO
 
 ## Setup
 
@@ -17,6 +17,9 @@ PORT="3030" # Port number
 MONGO_DB="mongodb+srv://" # Your mongodb uri
 JWT_SECRET="" # JWT secret key
 JWT_EXPIRES_IN="7d" # JWT expiration date
+EXPIRATION=604800000 # JWT expiration date in ms
+NANOID_LENGTH=11 # Length of nanoid (used for invite codes)
+FRONT_IP="http://localhost:4200" # Ip of the frontend
 ```
 
 Running locally :

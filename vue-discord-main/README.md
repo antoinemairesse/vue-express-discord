@@ -1,29 +1,25 @@
-# vue-discord
+# Discord clone backend
 
-This template should help get you started developing with Vue 3 in Vite.
+Stack : VueJS, Vuex, TailwindCSS, SocketIO
 
-## Recommended IDE Setup
+## Setup
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
+Install the dependencies
 
-## Customize configuration
-
-See [Vite Configuration Reference](https://vitejs.dev/config/).
-
-## Project Setup
-
-```sh
+```bash
 npm install
 ```
 
-### Compile and Hot-Reload for Development
+Create a .env file at the root of the project :
 
-```sh
+```bash
+VITE_DEFAULT_API_URL="http://localhost:3030/" # Backend URL
+```
+
+Running locally :
+
+```bash
 npm run dev
 ```
 
-### Compile and Minify for Production
-
-```sh
-npm run build
-```
+now frontend will be running on http://localhost:4200
