@@ -1,0 +1,30 @@
+[
+  {
+    "name": "Admin",
+    "color": "#D2042D",
+    "permissions": {
+      "editServer": true,
+      "deleteServer": true,
+      "createChannels": true,
+      "editChannels": true,
+      "deleteChannels": true,
+      "deleteMessages": true,
+      "kickUser": true,
+      "banUser": true
+    }
+  },
+  {
+    "name": "Member",
+    "color": "#72767D",
+    "permissions": {
+      "editServer": false,
+      "deleteServer": false,
+      "createChannels": true,
+      "editChannels": false,
+      "deleteChannels": false,
+      "deleteMessages": false,
+      "kickUser": false,
+      "banUser": false
+    }
+  }
+]

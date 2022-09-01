@@ -1,0 +1,24 @@
+version: '3'
+services:
+  back:
+    image: "antoinemair/discord-backend"
+    ports:
+      - "3030:3030"
+    volumes:
+      - "images:/public/images"
+    environment:
+      PORT: "3030"
+      FRONT_IP: "http://localhost"
+      MONGO_DB: "${MONGO_DB}"
+      JWT_SECRET: "${JWT_SECRET}"
+      JWT_EXPIRES_IN: "7d"
+      EXPIRATION: 604800000
+      NANOID_LENGTH: 11
+  front:
+    image: "antoinemair/vue-discord"
+    environment:
+      VITE_DEFAULT_API_URL: "http://localhost:3030/"
+    ports:
+      - "80:4200"
+volumes:
+  images:
