@@ -7,7 +7,7 @@
 
       <div class="flex flex-col w-full">
         <div class="flex gap-1 items-center">
-          <span class="text-white_500 font-bold">{{ sender?.username }}</span>
+          <span class="text-white_500 text-[0.9rem] font-semibold" :style="`color: ${sender?.role?.color}`">{{ sender?.username }}</span>
           <span class="text-label text-xs">{{ moment(message.createdAt).calendar() }}</span>
         </div>
 

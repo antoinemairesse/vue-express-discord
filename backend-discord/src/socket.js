@@ -18,7 +18,6 @@ module.exports = (server) => {
             socket.data.userId = userId;
             online.push(userId)
             io.emit('status', online)
-            console.log('joined : ', `user-${userId}`)
             socket.join(`user-${userId}`)
         })
 

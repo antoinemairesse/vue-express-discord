@@ -60,7 +60,6 @@ module.exports.updateUser = async (req) => {
     if(user.servers.length < 1) io.to(`user-${userId.toString()}`).emit('userUpdate', user);
 
     userIds.forEach(userId => {
-        console.log(userId);
         io.to(`user-${userId.toString()}`).emit('userUpdate', user);
     })
 
