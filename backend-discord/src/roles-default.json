@@ -10,7 +10,8 @@
       "deleteChannels": true,
       "deleteMessages": true,
       "kickUser": true,
-      "banUser": true
+      "banUser": true,
+      "invitePeople": true
     }
   },
   {
@@ -24,7 +25,8 @@
       "deleteChannels": false,
       "deleteMessages": false,
       "kickUser": false,
-      "banUser": false
+      "banUser": false,
+      "invitePeople": true
     }
   }
 ]

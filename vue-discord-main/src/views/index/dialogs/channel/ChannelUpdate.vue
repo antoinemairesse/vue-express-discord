@@ -20,9 +20,11 @@ import {ErrorMessage, Field, Form} from 'vee-validate';
 import * as yup from 'yup';
 import DialogWrapper from '../../../../components/dialogWrapper.vue';
 import Channel from '@/api/channel';
+import errorMessage from "@/mixins/errorMessage";
 
 export default {
   name: 'ChannelUpdate',
+  mixins: [errorMessage],
   components: {DialogWrapper, Form, Field, ErrorMessage},
   data() {
     const schema = yup.object({
@@ -42,9 +44,9 @@ export default {
       this.show = !this.show;
     },
     update(data) {
-      Channel.update(this.channel?._id, data).catch(() => {
-        this.message.error(this.$t('channel.edit_error'));
-      }).finally(() => this.show = false);
+      Channel.update(this.channel?._id, data)
+          .catch((e) => this.errorMessage(e, 'channel.edit_error'))
+          .finally(() => this.show = false);
     },
   },
 };

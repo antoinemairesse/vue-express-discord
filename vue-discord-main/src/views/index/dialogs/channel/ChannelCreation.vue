@@ -23,9 +23,11 @@ import * as yup from 'yup';
 import {mapActions} from 'vuex';
 import DialogWrapper from '../../../../components/dialogWrapper.vue';
 import {useMessage} from "naive-ui";
+import errorMessage from "@/mixins/errorMessage";
 
 export default {
   name: 'ChannelCreation',
+  mixins: [errorMessage],
   components: {DialogWrapper, Form, Field, ErrorMessage},
   data() {
     const schema = yup.object({
@@ -46,9 +48,9 @@ export default {
     },
     create(data) {
       this.$refs.channelname.reset();
-      this.createChannel(data).catch(() => {
-        this.message.error(this.$t('channel.create_error'));
-      }).finally(() => this.show = false);
+      this.createChannel(data)
+          .catch((e) => this.errorMessage(e, 'channel.create_error'))
+          .finally(() => this.show = false);
     },
   },
 };

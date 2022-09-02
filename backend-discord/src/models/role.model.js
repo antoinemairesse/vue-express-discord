@@ -11,7 +11,8 @@ const roleSchema = mongoose.Schema({
         deleteChannels: {type: Boolean, required: true},
         deleteMessages: {type: Boolean, required: true},
         kickUser: {type: Boolean, required: true},
-        banUser: {type: Boolean, required: true}
+        banUser: {type: Boolean, required: true},
+        invitePeople: {type: Boolean, required: true}
     },
     server: {type: mongoose.Schema.Types.ObjectId, ref: 'Server'},
 })

@@ -56,7 +56,11 @@ module.exports.updateUser = async (req) => {
 
     user = Object.assign(user, data)
 
+
+    if(user.servers.length < 1) io.to(`user-${userId.toString()}`).emit('userUpdate', user);
+
     userIds.forEach(userId => {
+        console.log(userId);
         io.to(`user-${userId.toString()}`).emit('userUpdate', user);
     })
 

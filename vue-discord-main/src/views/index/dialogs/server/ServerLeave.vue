@@ -16,9 +16,11 @@ import {ErrorMessage, Field, Form} from 'vee-validate';
 import DialogWrapper from '../../../../components/dialogWrapper.vue';
 import Server from '@/api/server';
 import {mapActions} from 'vuex';
+import errorMessage from "@/mixins/errorMessage";
 
 export default {
   name: 'ServerLeave',
+  mixins: [errorMessage],
   components: {DialogWrapper, Form, Field, ErrorMessage},
   data() {
     return {
@@ -34,11 +36,9 @@ export default {
       this.show = !this.show;
     },
     leave() {
-      Server.leave(this.server?._id).then(() => {
-        this.deleteServer(this.server?._id);
-      }).catch(() => {
-        this.message.error(this.$t('server.leave_error'));
-      }).finally(() => this.show = false);
+      Server.leave(this.server?._id).then(() => this.deleteServer(this.server?._id))
+          .catch((e) => this.errorMessage(e, 'server.leave_error'))
+          .finally(() => this.show = false);
     },
   },
 };

@@ -3,7 +3,7 @@
     <div class="mb-4 text-white_500 text-base">{{ $t('message.delete_confirm') }}</div>
 
     <div class="flex gap-3 w-full mb-5 border-[1px] p-2 rounded border-dark/[0.5] shadow-lg">
-      <div class="w-10 h-10 mt-1 rounded-full bg-profile flex-shrink-0"/>
+      <div class="w-10 h-10 mt-1 rounded-full bg-cover bg-center flex-shrink-0" :style="{'background-image':userPhotoURL(sender)}"/>
       <div class="flex flex-col w-full">
         <div class="flex gap-1 items-center">
           <span class="text-white_500 font-bold">{{ user.username }}</span>
@@ -35,9 +35,12 @@ import {ErrorMessage, Field, Form} from 'vee-validate';
 import moment from 'moment';
 import DialogWrapper from '../../../../components/dialogWrapper.vue';
 import Message from '@/api/message';
+import userPhotoURL from '@/mixins/userPhotoURL';
+import errorMessage from "@/mixins/errorMessage";
 
 export default {
   name: 'MessageDeletion',
+  mixins: [userPhotoURL, errorMessage],
   components: {DialogWrapper, Form, Field, ErrorMessage},
   data() {
     return {
@@ -55,9 +58,9 @@ export default {
       this.show = !this.show;
     },
     _delete() {
-      Message.delete(this.msg?._id).catch(() => {
-        this.message.error(this.$t('channel.delete_error'));
-      }).finally(() => this.show = false);
+      Message.delete(this.msg?._id)
+          .catch((e) => this.errorMessage(e, 'message.delete_error'))
+          .finally(() => this.show = false);
     },
   },
 };

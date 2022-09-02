@@ -24,9 +24,11 @@ import {ErrorMessage, Field, Form} from 'vee-validate';
 import * as yup from 'yup';
 import DialogWrapper from '../../../../components/dialogWrapper.vue';
 import Server from '@/api/server';
+import errorMessage from "@/mixins/errorMessage";
 
 export default {
   name: 'ServerDeletion',
+  mixins: [errorMessage],
   components: {DialogWrapper, Form, Field, ErrorMessage},
   data() {
     return {
@@ -46,9 +48,9 @@ export default {
       this.show = !this.show;
     },
     _delete() {
-      Server.delete(this.server?._id).catch(() => {
-        this.message.error(this.$t('server.delete_error'));
-      }).finally(() => this.show = false);
+      Server.delete(this.server?._id)
+          .catch((e) => this.errorMessage(e, 'server.delete_error'))
+          .finally(() => this.show = false);
     },
   },
 };

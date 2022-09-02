@@ -17,9 +17,11 @@ import {ErrorMessage, Field, Form} from 'vee-validate';
 import {mapState} from 'vuex';
 import DialogWrapper from '../../../../components/dialogWrapper.vue';
 import Server from '@/api/server';
+import errorMessage from "@/mixins/errorMessage";
 
 export default {
   name: 'kickUser',
+  mixins: [errorMessage],
   components: {DialogWrapper, Form, Field, ErrorMessage},
   data() {
     return {
@@ -39,9 +41,9 @@ export default {
       this.show = !this.show;
     },
     kick() {
-      Server.kick(this.selectedServer._id, this.user._id).catch(() => {
-        this.message.error(this.$t('server.kick_error'));
-      }).finally(() => this.show = false)
+      Server.kick(this.selectedServer._id, this.user._id)
+          .catch((e) => this.errorMessage(e, 'server.kick_error'))
+          .finally(() => this.show = false)
     },
   },
 };

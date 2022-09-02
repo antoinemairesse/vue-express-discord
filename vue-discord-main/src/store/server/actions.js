@@ -7,6 +7,7 @@ export const getServers = ({commit, dispatch}) => {
 
         // tell server that we want update on these servers
         servers.forEach((server) => {
+            dispatch('user/setUsers', server, {root: true});
             socket.emit('serverUpdate', server._id);
         });
 
@@ -29,7 +30,6 @@ export const setSelectedServer = ({commit, dispatch, state, rootState}, server) 
     localStorage.setItem('selectedServerId', server._id);
     socket.emit('selectServer', server._id);
     commit('SET_SELECTED_SERVER', server);
-    dispatch('user/setUsers', server, {root: true});
     dispatch('channel/setChannels', server, {root: true})
 };
 

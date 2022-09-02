@@ -47,10 +47,12 @@ import {NSelect, useMessage} from 'naive-ui';
 import Invite from '@/api/invite';
 import expirations from './expirations.json';
 import DialogWrapper from '../../../../components/dialogWrapper.vue';
+import errorMessage from "@/mixins/errorMessage";
 
 export default {
   name: 'ServerInvite',
   components: {DialogWrapper, NSelect},
+  mixins: [errorMessage],
   data() {
     return {
       options: expirations,
@@ -74,10 +76,10 @@ export default {
   methods: {
     toggle(server) {
       this.server = server;
+      this.show = !this.show;
       Invite.create({server: server._id, maxAge: this.expire}).then((response) => {
         this.code = response.data.code;
-      });
-      this.show = !this.show;
+      }).catch((e) => this.errorMessage(e, 'server.invite_error', () => this.show = false))
     },
     copy() {
       navigator.clipboard.writeText(this.link);
@@ -94,9 +96,9 @@ export default {
       }).then((response) => {
         this.code = response.data.code;
         this.edit = false;
-      }).catch(() => {
-        this.message.error(this.$t('server.invite_error'));
-      })
+      }).catch((e) => this.errorMessage(e, 'server.invite_error', (code) => {
+        if(code === 403) this.show = false
+      }))
     },
   },
 };

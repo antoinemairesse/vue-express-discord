@@ -128,6 +128,7 @@ export default {
         copied: 'Copied',
         private_messages: 'Private messages',
         email: 'Email',
-        password: 'Password'
+        password: 'Password',
+        forbidden: 'You don\'t have permission to do this'
     },
 };

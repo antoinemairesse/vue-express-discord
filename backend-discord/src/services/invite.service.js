@@ -6,6 +6,7 @@ const Invite = require("../models/invite.model");
 const {nanoid} = require("nanoid");
 const User = require("../models/user.model");
 const Role = require("../models/role.model");
+const {getPermissions} = require('./server.service');
 
 /**
  * Creates an invite
@@ -23,6 +24,10 @@ module.exports.createInvite = async (req) => {
 
     if(!server.members.some(e => e.member.toString() === userId))
         throw new ApiError(httpStatus.BAD_REQUEST, `You need to be a member of the server in order to invite people to it !`);
+
+    const permissions = await getPermissions(server._id.toString(), userId);
+    if(!permissions?.invitePeople)
+        throw new ApiError(httpStatus.FORBIDDEN, `You don't have permission to invite people to this server !`)
 
     if(data.neverExpires){
         const invite = await Invite.findOne({sender: userId, server: server._id, neverExpires: true})

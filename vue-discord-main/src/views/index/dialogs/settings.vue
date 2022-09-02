@@ -2,7 +2,7 @@
   <DialogWrapper :title="$t('settings.update')" v-model="show">
     <Form @submit="update" class="flex flex-col" :validation-schema="schema">
 
-      <ImageUpload v-model="image" :url="user.photoURL"/>
+      <ImageUpload v-model="image" :url="user?.photoURL"/>
 
       <div class="flex flex-col mb-5">
         <h5 class="input-label">{{ $t('username') }}</h5>
@@ -38,9 +38,11 @@ import {mapState} from 'vuex';
 import User from '@/api/user';
 import Auth from '@/api/auth';
 import {changeLang} from '@/i18n/i18n.service';
+import errorMessage from "@/mixins/errorMessage";
 
 export default {
   name: 'settings',
+  mixins: [errorMessage],
   components: {DialogWrapper, ImageUpload, Form, Field, ErrorMessage, NSelect},
   data() {
     const schema = yup.object({
@@ -85,9 +87,9 @@ export default {
         fd.append(key, value);
       }
 
-      User.update(fd).catch(() => {
-        this.message.error(this.$t('settings.edit_error'));
-      }).finally(() => this.show = false);
+      User.update(fd)
+          .catch((e) => this.errorMessage(e, 'settings.edit_error'))
+          .finally(() => this.show = false);
     },
     logout() {
       Auth.logout().then(() => {

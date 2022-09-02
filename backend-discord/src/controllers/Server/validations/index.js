@@ -56,7 +56,8 @@ const createRole = {
             deleteChannels: Joi.bool().required(),
             deleteMessages: Joi.bool().required(),
             kickUser: Joi.bool().required(),
-            banUser: Joi.bool().required()
+            banUser: Joi.bool().required(),
+            invitePeople: Joi.bool().required(),
         }).required()
     })
 };
