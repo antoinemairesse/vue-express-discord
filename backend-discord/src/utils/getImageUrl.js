@@ -3,13 +3,13 @@ const fs = require("fs");
 const {promises: fsP} = require("fs");
 const sharp = require('sharp');
 
-const getImageUrl = async (req) => {
+const getImageUrl = async (req, resizeOptions) => {
     const type = '.' + req.file.mimetype.split('image/')[1];
 
     const buffer = await sharp(
         req.file.buffer,
         { ...((type === '.gif') && {animated: true})}
-    ).resize(150, 150).toBuffer();
+    ).resize(...resizeOptions).toBuffer();
 
     const imgHash = md5(buffer);
     const imgName = imgHash + type;

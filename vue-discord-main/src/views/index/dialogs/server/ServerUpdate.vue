@@ -63,8 +63,9 @@ export default {
       this.image = files[0];
       this.imageURL = URL.createObjectURL(files[0]);
     },
-    update(data) {
+    async update(data) {
       const fd = new FormData();
+
       if (this.image) fd.append('image', this.image);
 
       for (const [key, value] of Object.entries(data)) {

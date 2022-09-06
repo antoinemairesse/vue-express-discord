@@ -14,6 +14,7 @@ services:
       JWT_EXPIRES_IN: "7d"
       EXPIRATION: 604800000
       NANOID_LENGTH: 11
+      NB_OF_ITEMS: 15
   front:
     image: "antoinemair/vue-discord"
     environment:

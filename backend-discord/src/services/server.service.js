@@ -25,7 +25,7 @@ module.exports.createServer = async (req) => {
     const userId = req.auth.userId;
     const data = req.body;
 
-    if(req.file) data.photoURL = await getImageUrl(req);
+    if(req.file) data.photoURL = await getImageUrl(req, [150, 150, {fit: 'inside'}]);
 
     const user = await User.findOne({_id: userId})
     if (!user) throw new ApiError(httpStatus.NOT_FOUND, `No user with id : ${userId}`);
@@ -88,7 +88,7 @@ module.exports.updateServer = async (req) => {
     let server = await Server.findOne({_id: serverId}).populate(populateOptions)
     if (!server) throw new ApiError(httpStatus.NOT_FOUND, `No server with id : ${serverId}`);
 
-    if(req.file) data.photoURL = await getImageUrl(req);
+    if(req.file) data.photoURL = await getImageUrl(req, [150, 150, {fit: 'inside'}]);
 
     server = Object.assign(server, data)
 

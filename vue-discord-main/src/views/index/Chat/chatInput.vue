@@ -1,7 +1,17 @@
 <template>
+  <upload-screen v-model:image="image"/>
+  <div class="flex gap-x-2 w-[95%] mx-auto pb-4">
+    <div v-if="image" class="px-3 py-3 relative bg-gray_800 rounded">
+      <i
+          class="ri-delete-bin-2-line absolute top-0 right-0 px-1.5 py-1 cursor-pointer text-white_500 bg-red-500 rounded"
+          @click="deleteImage(image)"
+      />
+      <img :src="image" class="w-auto h-auto max-h-[100px] max-w-[100px] block" alt="">
+    </div>
+  </div>
   <Form @submit="send" class="w-full flex flex-col items-center" :validation-schema="schema">
     <div
-        v-if="usersTyping && usersTyping.length >= 1 && usersTyping[0] !== user._id"
+        v-if="usersTyping && usersTyping.length >= 1 && usersTyping[0] !== user?._id"
         class="w-[95%] text-white_500 rounded px-2 py-1 loading"
     >
       {{typingString}}
@@ -20,11 +30,12 @@
 import {mapActions, mapGetters, mapState} from "vuex";
 import * as yup from "yup";
 import {Field, Form} from 'vee-validate';
+import UploadScreen from "./uploadScreen.vue";
 
 export default {
   name: "chatInput",
   inject: ['$socket'],
-  components: {Field, Form},
+  components: {UploadScreen, Field, Form},
   computed: {
     ...mapGetters('user', ['users']),
     ...mapState('server', ['selectedServer']),
@@ -48,20 +59,33 @@ export default {
   },
   data(){
     const schema = yup.object({
-      message: yup.string().required().min(1),
+      message: yup.string(),
     });
     return {
       schema,
       debounceTime: 500,
       typing: false,
+      image: null,
       timer: null
     }
   },
   methods: {
     ...mapActions('message', ['sendMessage']),
-    send(data) {
+    deleteImage(){
+      this.image = null;
+    },
+    async send({message}) {
+      if (((!message || message.length < 1) && !this.image)) return;
+      const fd = new FormData();
+
+      if(this.image){
+        const blob = await fetch(this.image).then(r => r.blob());
+        fd.append('image', blob);
+      }
+
+      fd.append('content', message);
       this.$refs.chatbar.reset();
-      this.sendMessage(data.message);
+      this.sendMessage(fd).then(() => this.image = null)
       this.stopTyping()
     },
     debounceInput() {

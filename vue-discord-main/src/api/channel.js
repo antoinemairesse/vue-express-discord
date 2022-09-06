@@ -12,7 +12,9 @@ export default {
     delete(id) {
         return Api.delete(`${END_POINT}/${id}`, {withCredentials: true});
     },
-    getMessages(id) {
-        return Api.get(`${END_POINT}/${id}/messages`, {withCredentials: true});
+    getMessages(id, page) {
+        let url = `${END_POINT}/${id}/messages`;
+        if(page) url += `?page=${page}`
+        return Api.get(url, {withCredentials: true});
     },
 };

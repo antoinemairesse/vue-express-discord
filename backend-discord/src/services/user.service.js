@@ -52,7 +52,7 @@ module.exports.updateUser = async (req) => {
         })
     })
 
-    if(req.file) data.photoURL = await getImageUrl(req);
+    if(req.file) data.photoURL = await getImageUrl(req, [150, 150, {fit: 'inside'}]);
 
     user = Object.assign(user, data)
 

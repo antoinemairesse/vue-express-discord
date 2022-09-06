@@ -116,12 +116,24 @@ module.exports.deleteChannel = async (req) => {
  */
 module.exports.getMessages = async (req) => {
     const channelId = req.params.id;
+    const nbOfItems = req.query.nbOfItems || process.env.NB_OF_ITEMS;
+    const page = req.query.page || 0;
+    let skip = (page * nbOfItems)
 
     const channel = await Channel.findOne({_id: channelId})
     if (!channel) throw new ApiError(httpStatus.NOT_FOUND, `No channel with id : ${channelId}`);
+    const itemCount = await Message.count({_id: {$in: channel.messages}})
+    let pageCount = Math.ceil(itemCount / nbOfItems) - 1;
 
-    const messages = await Message.find({_id: {$in: channel.messages}});
+    if(pageCount < 0) pageCount = 0;
+    if(skip > (itemCount)) skip = (itemCount - nbOfItems)
+
+    let messages = await Message.find({_id: {$in: channel.messages}})
+        .sort({createdAt: 'desc'})
+        .limit(nbOfItems)
+        .skip(skip);
+
     if(!messages && messages !== []) throw new InternalServerError();
 
-    return messages;
+    return {messages, page, itemCount, pageCount};
 };

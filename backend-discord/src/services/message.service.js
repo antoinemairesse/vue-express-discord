@@ -5,6 +5,7 @@ const {InternalServerError} = require("../utils/Errors");
 const Channel = require("../models/channel.model");
 const Message = require("../models/message.model");
 const {getPermissions} = require('./server.service');
+const getImageUrl = require("../utils/getImageUrl");
 /**
  * Creates a message
  * @param req
@@ -14,6 +15,11 @@ module.exports.createMessage = async (req) => {
     const userId = req.auth.userId;
     const data = req.body;
     const io = req.app.get('io');
+
+    if (!req.file && (typeof data.content !== "string" || data.content.length < 1))
+        throw new ApiError(httpStatus.NOT_FOUND, `No channel with id : ${data.channel}`);
+
+    if(req.file) data.attachment = await getImageUrl(req, [200, 200, {fit: 'inside'}]);
 
     const channel = await Channel.findOne({_id: data.channel})
     if (!channel) throw new ApiError(httpStatus.NOT_FOUND, `No channel with id : ${data.channel}`);

@@ -3,7 +3,7 @@
     <div class="mb-4 text-white_500 text-base">{{ $t('message.delete_confirm') }}</div>
 
     <div class="flex gap-3 w-full mb-5 border-[1px] p-2 rounded border-dark/[0.5] shadow-lg">
-      <div class="w-10 h-10 mt-1 rounded-full bg-cover bg-center flex-shrink-0" :style="{'background-image':userPhotoURL(sender)}"/>
+      <div class="w-10 h-10 mt-1 rounded-full bg-cover bg-center flex-shrink-0" :style="{'background-image':userPhotoURL(user)}"/>
       <div class="flex flex-col w-full">
         <div class="flex gap-1 items-center">
           <span class="text-white_500 font-bold">{{ user.username }}</span>
@@ -15,6 +15,12 @@
           <span v-if="(!!msg.updatedAt)" class="text-[0.65rem] text-label">
             ({{ $t('message.modified') }})
           </span>
+          <img
+              v-if="msg.attachment"
+              class="block w-auto h-auto max-w-[300px] max-h-[300px] my-2"
+              :src="msg.attachment"
+              alt=""
+          >
         </span>
       </div>
     </div>

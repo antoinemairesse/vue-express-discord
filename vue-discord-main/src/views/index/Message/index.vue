@@ -11,12 +11,18 @@
           <span class="text-label text-xs">{{ moment(message.createdAt).calendar() }}</span>
         </div>
 
-        <span v-if="!editMode" class="text-white_500">
+        <div v-if="!editMode" class="text-white_500">
           {{ message.content }}
           <span v-if="(!!message.updatedAt)" class="text-[0.65rem] text-label">
             ({{ $t('message.modified') }})
           </span>
-        </span>
+          <img
+              v-if="message.attachment"
+              class="block w-auto h-auto max-w-[300px] max-h-[300px] my-2"
+              :src="message.attachment"
+              alt=""
+          >
+        </div>
 
         <EditForm ref="editForm" :message="message"/>
 
@@ -25,9 +31,9 @@
 
     <div class="hidden group-hover:block text-xl text-label bg-gray_600 h-fit border-[1px]
         rounded border-dark/[0.5] right-[1rem] absolute top-[-12px]">
-      <i v-if="message.sender === user._id" class="ri-pencil-fill action-btn" @click="editMessage"/>
+      <i v-if="message.sender === user?._id" class="ri-pencil-fill action-btn" @click="editMessage"/>
       <i
-        v-if="permissions?.deleteMessages || message.sender === user._id"
+        v-if="permissions?.deleteMessages || message.sender === user?._id"
         class="ri-delete-bin-2-line action-btn"
         @click="$emit('delete'); $refs.editForm.cancelEdit()"
       />

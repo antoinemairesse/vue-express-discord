@@ -4,8 +4,9 @@ const messageController = require('./index');
 const validate = require('../../middlewares/validate');
 const validations = require('./validations');
 const auth = require("../../middlewares/auth");
+const multer = require('../../middlewares/multer');
 
-router.post('/', auth, validate(validations.createMessage), messageController.createMessage);
+router.post('/', auth, multer, validate(validations.createMessage), messageController.createMessage);
 router.get('/:id', auth, validate(validations.getMessage), messageController.getMessage);
 router.patch('/:id', auth, validate(validations.updateMessage), messageController.updateMessage);
 router.delete('/:id', auth, validate(validations.deleteMessage), messageController.deleteMessage);

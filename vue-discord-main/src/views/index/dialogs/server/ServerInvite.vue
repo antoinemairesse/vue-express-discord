@@ -45,8 +45,8 @@
 <script>
 import {NSelect, useMessage} from 'naive-ui';
 import Invite from '@/api/invite';
-import expirations from './expirations.json';
-import DialogWrapper from '../../../../components/dialogWrapper.vue';
+import expirations from '@/resources/expirations.json';
+import DialogWrapper from '@/components/dialogWrapper.vue';
 import errorMessage from "@/mixins/errorMessage";
 
 export default {

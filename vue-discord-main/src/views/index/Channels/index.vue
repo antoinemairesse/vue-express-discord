@@ -8,7 +8,7 @@
     <div
         class="w-full text-white_500 flex items-center justify-between px-5 font-bold text-font_15 py-3 border-b-[1px] border-gray_900">
       <div class="truncate">{{ serverName }}</div>
-      <n-tooltip v-if="permissions?.createChannels || (selectedServer && user) && selectedServer.creator === user._id"
+      <n-tooltip v-if="permissions?.createChannels || (selectedServer && user) && selectedServer?.creator === user?._id"
                  trigger="hover" placement="top" :duration="0">
         <template #trigger>
           <button @click="$refs.channelCreation.toggle()"><i class="ri-add-line text-xl"></i></button>

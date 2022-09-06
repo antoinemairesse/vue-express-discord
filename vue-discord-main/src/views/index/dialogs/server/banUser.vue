@@ -40,7 +40,7 @@ export default {
       this.show = !this.show;
     },
     kick() {
-      Server.ban(this.selectedServer._id, this.user._id)
+      Server.ban(this.selectedServer?._id, this.user?._id)
           .catch((e) => this.errorMessage(e, 'server.ban_error'))
           .finally(() => this.show = false)
     },

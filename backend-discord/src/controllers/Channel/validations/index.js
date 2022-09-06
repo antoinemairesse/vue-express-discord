@@ -32,7 +32,11 @@ const deleteChannel = {
 
 const getMessages = {
     params: Joi.object().keys({
-        id: Joi.string().custom(objectId).required()
+        id: Joi.string().custom(objectId).required(),
+    }),
+    query: Joi.object().keys({
+        page: Joi.number(),
+        nbOfItems: Joi.number()
     })
 };
 

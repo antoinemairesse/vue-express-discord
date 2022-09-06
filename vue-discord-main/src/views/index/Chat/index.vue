@@ -11,7 +11,7 @@
         </div>
       </div>
 
-      <div class="h-full w-full py-5 custom-scrollbar overflow-y-scroll flex flex-col-reverse">
+      <div @scroll="onChatScroll" id="chat-box" class="h-full w-full py-5 custom-scrollbar overflow-y-scroll flex flex-col-reverse">
         <div v-for="message in messages" :key="$i18n.locale + message[0]" class="text-white_500">
           <n-divider class="text-label !mt-0 text-xs">
             {{ moment(message[0]).format('D MMMM YYYY') }}
@@ -23,6 +23,29 @@
               @delete="$refs.messageDeletion.toggle(msg, getSender(msg.sender))"
           />
         </div>
+
+        <div v-if="page < pageCount" id="loading-messages">
+          <div v-for="n in 5">
+            <div class="px-5 mb-5">
+              <div class="animate-pulse flex gap-3 w-full items-center align-middle">
+                <div class="bg-gray_400 w-10 h-10 mt-1 rounded-full bg-cover bg-center flex-shrink-0"/>
+
+                <div class="flex flex-col w-full">
+                  <div class="flex gap-1 items-center">
+                    <div class="bg-gray_200 h-3 rounded" :style="{'width': `${Math.ceil((Math.random() * 150)) + 100}px`}"/>
+                    <div class="bg-gray_200 h-3 w-[75px] rounded"/>
+                  </div>
+                  <div v-for="n in Math.ceil((Math.random()) + 1)"
+                       class="bg-gray_400 h-3 w-[75px] mt-2 rounded"
+                       :style="{'width': `${Math.ceil((Math.random() * 350)) + 100}px`}"
+                  />
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
       </div>
       <ChatInput/>
     </div>
@@ -37,12 +60,13 @@
 </template>
 
 <script>
-import {mapGetters, mapState} from 'vuex';
+import {mapActions, mapGetters, mapState} from 'vuex';
 import Message from '../Message/index.vue';
 import MessageDeletion from '../dialogs/message/MessageDeletion.vue';
 import moment from "moment";
 import {NDivider} from 'naive-ui'
 import ChatInput from "./chatInput.vue";
+import _ from 'lodash';
 
 export default {
   name: 'Chat',
@@ -52,6 +76,7 @@ export default {
     ...mapGetters('channel', ['channelName']),
     ...mapGetters('message', ['messages']),
     ...mapState('channel', ['selectedChannel']),
+    ...mapState('message', ['page', 'pageCount', 'loading']),
   },
   data() {
     return {
@@ -59,6 +84,22 @@ export default {
     };
   },
   methods: {
+    ...mapActions('message', ['getMoreMessages']),
+    isScrolledIntoView(el) {
+      let rect = el.getBoundingClientRect();
+      return rect.top < window.innerHeight && rect.bottom >= 0;
+    },
+    onChatScroll(){
+      const chatBox = document.getElementById('chat-box');
+      const loading = document.getElementById('loading-messages');
+      const scroll = chatBox.scrollTop;
+
+      if((this.page < this.pageCount) && !this.loading && this.isScrolledIntoView(loading)){
+        this.getMoreMessages().then(() => {
+          chatBox.scrollTop = scroll;
+        })
+      }
+    },
     getSender(sender) {
       return this.users?.find((user) => {
         return user._id === sender;

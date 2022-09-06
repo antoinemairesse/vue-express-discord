@@ -41,7 +41,7 @@ export default {
       this.show = !this.show;
     },
     kick() {
-      Server.kick(this.selectedServer._id, this.user._id)
+      Server.kick(this.selectedServer?._id, this.user?._id)
           .catch((e) => this.errorMessage(e, 'server.kick_error'))
           .finally(() => this.show = false)
     },

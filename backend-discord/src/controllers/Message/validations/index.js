@@ -3,7 +3,7 @@ const objectId = require('../../../utils/ObjectId');
 
 const createMessage = {
     body: Joi.object().keys({
-        content: Joi.string().required(),
+        content: Joi.string().allow(''),
         channel: Joi.string().custom(objectId).required()
     })
 };
