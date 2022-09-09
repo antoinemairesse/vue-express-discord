@@ -30,4 +30,15 @@ const router = createRouter({
     ],
 });
 
+const hasQueryParams = (route) => {
+    return !!Object.keys(route.query).length
+}
+
+router.beforeEach(((to, from, next) => {
+    const routes = ['login', 'register', 'invite']
+    if((routes.includes(to.name) && routes.includes(from.name)) && (!hasQueryParams(to) && hasQueryParams(from))){
+        next({name: to.name, query: from.query});
+    } else next()
+}))
+
 export default router;

@@ -8,7 +8,9 @@ export const login = ({commit}, data) => {
         .then((response) => {
             commit('SET_USER', response.data.user);
             commit('SET_ERROR', false);
-            window.location.replace('/');
+            const code = new URLSearchParams(window.location.search).get('code')
+            if(code) window.location.replace(`/invite?code=${code}`);
+            else window.location.replace('/');
             commit('SET_LOADING', false);
         })
         .catch(() => {
