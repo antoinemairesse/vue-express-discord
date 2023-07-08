@@ -35,3 +35,53 @@
 .error-msg {
   @apply text-red-500 text-sm;
 }
+
+
+.state-loading,
+.icon-load.progress-disabled {
+  position: relative;
+  user-select: none;
+  overflow: hidden;
+  border-radius: 3px;
+}
+
+.state-loading:before,
+.icon-load.progress-disabled:before {
+  -webkit-animation: loader 0.75s linear;
+  -webkit-animation-iteration-count: infinite;
+  animation: loader 0.75s linear;
+  animation-iteration-count: infinite;
+  border-color: transparent #3BA55D #3BA55D;
+  /*border-color: #707070 #F2F3F4 #F2F3F4; */
+  border-radius: 50%;
+  border-style: solid;
+  border-width: 0.25em;
+  box-shadow: 0 0 0 1px transparent;
+  content: "";
+  height: 2em;
+  left: 50%;
+  margin: -0.75em 0 0 -0.74em;
+  position: absolute;
+  top: 50%;
+  width: 2em;
+  z-index: 5;
+}
+
+.state-loading:after,
+.icon-load.progress-disabled:after {
+  border-radius: 3px;
+  content: "";
+  height: 100%;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  z-index: 4;
+}
+
+@keyframes loader {
+  100% {
+    -webkit-transform: rotate(1turn);
+    transform: rotate(1turn);
+  }
+}

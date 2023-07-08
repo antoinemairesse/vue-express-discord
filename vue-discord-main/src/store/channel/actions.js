@@ -102,6 +102,13 @@ export const deleteChannel = ({ commit, dispatch, state }, channel) => {
   dispatch("setSelectedChannel", channel);
 };
 
+export const sendTyping = ({rootState}, typing) => {
+  const serverId = rootState.server.selectedServer._id;
+  const channelId = rootState.channel.selectedChannel._id;
+  const event = typing ? "typing" : "stopTyping";
+  socket.emit(event, {serverId, channelId});
+}
+
 export const addTypingUser = ({ state, commit, rootState }, { user, channelId }) => {
   if(user._id === rootState.auth.user._id) return;
   const users = state.usersTyping.get(channelId) || [];
