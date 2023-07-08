@@ -8,8 +8,8 @@ import Users from "@/api/endpoints/users";
 export default {
   auth: new Auth("auth"),
   channels: new Channels("channels"),
-  messages: new Messages('messages'),
-  servers: new Servers('servers'),
-  invites: new Invites('invites'),
-  users: new Users('users')
+  messages: new Messages("messages"),
+  servers: new Servers("servers"),
+  invites: new Invites("invites"),
+  users: new Users("users"),
 };

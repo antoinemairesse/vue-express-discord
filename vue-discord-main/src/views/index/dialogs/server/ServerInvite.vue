@@ -93,7 +93,8 @@ export default {
     toggle(server) {
       this.server = server;
       this.show = !this.show;
-      this.$api.invites.create({ server: server._id, maxAge: this.expire })
+      this.$api.invites
+        .create({ server: server._id, maxAge: this.expire })
         .then((response) => {
           this.code = response.data.code;
         })
@@ -113,11 +114,12 @@ export default {
       }, 1000);
     },
     generateNewLink() {
-      this.$api.invites.create({
-        server: this.server._id,
-        ...(this.expire !== "never" && { maxAge: this.expire }),
-        ...(this.expire === "never" && { neverExpires: true }),
-      })
+      this.$api.invites
+        .create({
+          server: this.server._id,
+          ...(this.expire !== "never" && { maxAge: this.expire }),
+          ...(this.expire === "never" && { neverExpires: true }),
+        })
         .then((response) => {
           this.code = response.data.code;
           this.edit = false;

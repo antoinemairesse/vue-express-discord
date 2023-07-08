@@ -45,7 +45,8 @@ export default {
       this.show = !this.show;
     },
     leave() {
-      this.$api.servers.leave(this.server?._id)
+      this.$api.servers
+        .leave(this.server?._id)
         .then(() => this.deleteServer(this.server?._id))
         .catch((e) => this.errorMessage(e, "server.leave_error"))
         .finally(() => (this.show = false));

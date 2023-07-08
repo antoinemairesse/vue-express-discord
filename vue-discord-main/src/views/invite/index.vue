@@ -113,12 +113,11 @@ export default {
       this.members = server.members.length;
       this.server = server;
 
-      await this.$api.servers.isUserBanned(
-        server._id,
-        this.$store.state.auth.user?._id,
-      ).then((response) => {
-        this.ban = response.data.isUserBanned;
-      });
+      await this.$api.servers
+        .isUserBanned(server._id, this.$store.state.auth.user?._id)
+        .then((response) => {
+          this.ban = response.data.isUserBanned;
+        });
       this.loading = false;
     });
   },

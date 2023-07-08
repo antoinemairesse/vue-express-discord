@@ -59,7 +59,8 @@ export default {
       this.show = !this.show;
     },
     _delete() {
-      this.$api.servers.delete(this.server?._id)
+      this.$api.servers
+        .delete(this.server?._id)
         .catch((e) => this.errorMessage(e, "server.delete_error"))
         .finally(() => (this.show = false));
     },

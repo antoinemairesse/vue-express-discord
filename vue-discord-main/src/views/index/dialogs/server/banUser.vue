@@ -50,7 +50,8 @@ export default {
       this.show = !this.show;
     },
     kick() {
-      this.$api.servers.ban(this.selectedServer?._id, this.user?._id)
+      this.$api.servers
+        .ban(this.selectedServer?._id, this.user?._id)
         .catch((e) => this.errorMessage(e, "server.ban_error"))
         .finally(() => (this.show = false));
     },

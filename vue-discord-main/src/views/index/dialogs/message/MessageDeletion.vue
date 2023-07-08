@@ -76,7 +76,8 @@ export default {
       this.show = !this.show;
     },
     _delete() {
-      this.$api.messages.delete(this.msg?._id)
+      this.$api.messages
+        .delete(this.msg?._id)
         .catch((e) => this.errorMessage(e, "message.delete_error"))
         .finally(() => (this.show = false));
     },

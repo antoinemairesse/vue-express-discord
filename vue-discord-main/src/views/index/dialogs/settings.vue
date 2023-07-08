@@ -104,7 +104,8 @@ export default {
         fd.append(key, value);
       }
 
-      this.$api.users.update(fd)
+      this.$api.users
+        .update(fd)
         .catch((e) => this.errorMessage(e, "settings.edit_error"))
         .finally(() => (this.show = false));
     },

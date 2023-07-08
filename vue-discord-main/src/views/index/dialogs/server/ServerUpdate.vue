@@ -76,7 +76,8 @@ export default {
         fd.append(key, value);
       }
 
-      this.$api.servers.update(this.server?._id, fd)
+      this.$api.servers
+        .update(this.server?._id, fd)
         .catch((e) => this.errorMessage(e, "server.edit_error"))
         .finally(() => this.reset());
     },

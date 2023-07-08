@@ -96,9 +96,9 @@ export default {
         this.editValue.length > 0 &&
         this.editValue !== this.message.content
       ) {
-        this.$api.messages.update(this.message._id, { content: this.editValue }).then(() =>
-          this.setEditMessageId(null),
-        );
+        this.$api.messages
+          .update(this.message._id, { content: this.editValue })
+          .then(() => this.setEditMessageId(null));
       }
     },
   },

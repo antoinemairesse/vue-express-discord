@@ -1,6 +1,6 @@
 import Repository from "@/api/Repository";
 
-export default class Servers extends Repository{
+export default class Servers extends Repository {
   getAll() {
     return this.$axios.get(this.resource);
   }
@@ -14,18 +14,12 @@ export default class Servers extends Repository{
     return this.$axios.post(`${this.resource}/${id}/leave`, {});
   }
   kick(id, userId) {
-    return this.$axios.post(
-      `${this.resource}/${id}/kick`,
-      { userId },
-    );
+    return this.$axios.post(`${this.resource}/${id}/kick`, { userId });
   }
   ban(id, userId) {
-    return this.$axios.post(
-      `${this.resource}/${id}/ban`,
-      { userId },
-    );
+    return this.$axios.post(`${this.resource}/${id}/ban`, { userId });
   }
   isUserBanned(id, userId) {
     return this.$axios.get(`${this.resource}/${id}/ban/${userId}`);
   }
-};
+}
