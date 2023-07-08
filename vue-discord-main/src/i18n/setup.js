@@ -39,7 +39,7 @@ export const i18n = createI18n({
     fallbackLocale: 'fr',
     messages: {...fr, ...en},
 });
-
+// TODO REFACTOR ?????
 setTimeout(() => {
     setLang();
 });

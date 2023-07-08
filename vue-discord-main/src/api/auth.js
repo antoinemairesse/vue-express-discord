@@ -1,18 +1,15 @@
-import Api from './api';
-
-const END_POINT = 'auth';
-
-export default {
+import Repository from "@/api/Repository";
+export default class Auth extends Repository {
     login(data) {
-        return Api.post(END_POINT + '/login', data, {withCredentials: true});
-    },
+        return this.$axios.post(`${this.resource}/login`, data);
+    }
     signup(data) {
-        return Api.post(END_POINT + '/signup', data);
-    },
+        return this.$axios.post(`${this.resource}/signup`, data);
+    }
     logout() {
-        return Api.post(`${END_POINT}/logout`, {}, {withCredentials: true});
-    },
+        return this.$axios.post(`${this.resource}/logout`, {});
+    }
     getAuthUser() {
-        return Api.get(END_POINT, {withCredentials: true});
-    },
+        return this.$axios.get(this.resource);
+    }
 };

@@ -6,6 +6,8 @@ import store from './store';
 import {i18n} from './i18n/setup';
 import socket from './socket';
 import {setLocale} from 'yup';
+import $axios from './api/axios'
+import $api from './api'
 
 const $tc = i18n.global.tc;
 
@@ -25,6 +27,10 @@ setLocale({
 });
 
 const app = createApp(App);
+app.config.globalProperties.$axios = $axios;
+app.config.globalProperties.$api = $api;
+store.$api = $api;
+store.install(app);
 app.provide('$socket', socket);
 app.use(router);
 app.use(store);

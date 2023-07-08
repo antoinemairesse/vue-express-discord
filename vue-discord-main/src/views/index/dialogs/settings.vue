@@ -36,7 +36,6 @@ import ImageUpload from '../../../components/imageUpload.vue';
 import DialogWrapper from '../../../components/dialogWrapper.vue';
 import {mapState} from 'vuex';
 import User from '@/api/user';
-import Auth from '@/api/auth';
 import {changeLang} from '@/i18n/i18n.service';
 import errorMessage from "@/mixins/errorMessage";
 
@@ -92,7 +91,7 @@ export default {
           .finally(() => this.show = false);
     },
     logout() {
-      Auth.logout().then(() => {
+      this.$api.auth.logout().then(() => {
         this.$router.push('login');
       });
     },

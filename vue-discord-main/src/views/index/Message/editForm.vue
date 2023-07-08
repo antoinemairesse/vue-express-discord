@@ -19,7 +19,7 @@
 
 <script>
 import {mapActions, mapState} from "vuex";
-import Message from '@/api/message';
+import Message from '@/api/messages';
 
 export default {
   name: "editForm",

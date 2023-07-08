@@ -40,7 +40,7 @@ import {useMessage} from 'naive-ui';
 import {ErrorMessage, Field, Form} from 'vee-validate';
 import moment from 'moment';
 import DialogWrapper from '../../../../components/dialogWrapper.vue';
-import Message from '@/api/message';
+import Message from '@/api/messages';
 import userPhotoURL from '@/mixins/userPhotoURL';
 import errorMessage from "@/mixins/errorMessage";
 

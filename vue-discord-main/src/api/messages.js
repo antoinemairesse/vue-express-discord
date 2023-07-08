@@ -1,4 +1,4 @@
-import Api from './api';
+import Api from './axios';
 
 const END_POINT = 'messages';
 

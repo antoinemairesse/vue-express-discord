@@ -1,10 +1,10 @@
-import Auth from '../../api/auth';
+import $api from '@/api';
 import router from '../../router/index';
 import socket from '../../socket';
 
 export const login = ({commit}, data) => {
     commit('SET_LOADING', true);
-    Auth.login(data)
+    $api.auth.login(data)
         .then((response) => {
             commit('SET_USER', response.data.user);
             commit('SET_ERROR', false);
@@ -21,7 +21,7 @@ export const login = ({commit}, data) => {
 
 export const signup = ({commit}, data) => {
     commit('SET_LOADING', true);
-    Auth.signup(data)
+    $api.auth.signup(data)
         .then((response) => {
             router.push('login');
         })
@@ -31,7 +31,7 @@ export const signup = ({commit}, data) => {
 };
 
 export const getAuthUser = ({commit}) => {
-    return Auth.getAuthUser().then((response) => {
+    return $api.auth.getAuthUser().then((response) => {
         commit('SET_USER', response.data);
         socket.emit('online', response.data._id);
         return response.data;

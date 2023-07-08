@@ -33,11 +33,11 @@ export default {
             add: 'Ajouter un salon',
             create_error: 'Erreur pendant la création du channel',
             edit: 'Modifier le salon|Modifier le salon {name}',
-            edit_success: 'Channel mis à jour',
+            edit_success: 'Channels mis à jour',
             edit_error: 'Erreur pendant la mise à jour du channel',
             delete: 'Supprimer le salon|Supprimer le salon {name}',
             delete_confirm: 'Êtes vous sûr de vouloir supprimer le channel ?|Êtes vous sûr de vouloir supprimer le channel {name} ?',
-            delete_success: 'Channel supprimé',
+            delete_success: 'Channels supprimé',
             delete_error: 'Erreur pendant la suppression du channel',
             type: {
                 text: 'Salons textuels'

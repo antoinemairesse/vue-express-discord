@@ -1,4 +1,4 @@
-import Channel from '../../api/channel';
+import $api from '@/api'
 import socket from '../../socket';
 import Server from "../../api/server";
 
@@ -43,7 +43,7 @@ export const setChannels = async ({commit, dispatch, state, rootState}, server) 
 
 export const createChannel = ({rootState}, data) => {
     const server = rootState.server.selectedServer?._id;
-    return Channel.create({...data, server});
+    return $api.channels.create({...data, server});
 };
 
 export const addChannel = ({commit, state, dispatch}, channel) => {

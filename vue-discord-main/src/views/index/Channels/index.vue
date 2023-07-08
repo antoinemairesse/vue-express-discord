@@ -49,7 +49,7 @@ import Channel from './Channel.vue';
 import UserControls from './userControls.vue';
 
 export default {
-  name: 'Channels',
+  name: 'Channel',
   components: {
     UserControls,
     Channel,

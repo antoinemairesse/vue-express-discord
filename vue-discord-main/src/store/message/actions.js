@@ -1,5 +1,5 @@
-import Message from '../../api/message';
-import Channel from "../../api/channel";
+import Message from '../../api/messages';
+import $api from "@/api";
 
 export const sendMessage = ({commit, rootState}, data) => {
     if (document.getElementById('favicon').href === window.location.origin + '/favicon-notif.png') {
@@ -12,7 +12,7 @@ export const sendMessage = ({commit, rootState}, data) => {
 
 export const getMessages = ({commit, state, rootState, dispatch}, channel) => {
     if (channel && !state.messages.has(channel._id)) {
-        Channel.getMessages(channel._id).then(response => {
+        $api.channels.getMessages(channel._id).then(response => {
             const {itemCount, page, pageCount, messages} = response.data;
             commit('SET_MESSAGES', {channelId: channel._id, messages});
             commit('SET_PAGINATION_INFO', {itemCount, page, pageCount})

@@ -33,11 +33,11 @@ export default {
             add: 'Add channel',
             create_error: 'Error while creating channel',
             edit: 'Edit channel|Edit channel {name}',
-            edit_success: 'Channel updated',
+            edit_success: 'Channels updated',
             edit_error: 'Error during channel update',
             delete: 'Delete channel|Delete channel {name}',
             delete_confirm: 'Are you sure you want to delete this channel?|Are you sure you want to delete channel {name}?',
-            delete_success: 'Channel deleted',
+            delete_success: 'Channels deleted',
             delete_error: 'Error during channel deletion',
             type: {
                 text: 'Text channels'
@@ -73,7 +73,7 @@ export default {
         },
         form: {
             labels: {
-                channel_name: 'Channel name',
+                channel_name: 'Channels name',
                 server_name: 'Server name',
                 enter_server_name: 'Enter server name',
             },
