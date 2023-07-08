@@ -35,7 +35,10 @@ export const signup = ({ commit }, data) => {
 export const getAuthUser = ({ commit }) => {
   return $api.auth.getAuthUser().then((response) => {
     commit("SET_USER", response.data);
-    socket.emit("online", response.data._id);
+    socket.emit("online", {
+      _id: response.data._id,
+      username: response.data.username
+    });
     return response.data;
   });
 };

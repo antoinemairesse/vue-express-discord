@@ -14,23 +14,23 @@ module.exports = (server) => {
 
     io.on('connection', async (socket) => {
 
-        socket.on('online', (userId) => {
-            socket.data.userId = userId;
-            online.push(userId)
+        socket.on('online', (user) => {
+            socket.data.user = user;
+            online.push(user._id)
             io.emit('status', online)
-            socket.join(`user-${userId}`)
+            socket.join(`user-${user._id}`)
         })
 
         socket.on('typing', ({serverId, channelId}) => {
-            socket.broadcast.to(`server-${serverId}`).emit('typing', {userId: socket.data.userId, channelId});
+            socket.broadcast.to(`server-${serverId}`).emit('typing', {user: socket.data.user, channelId});
         })
 
         socket.on('stopTyping', ({serverId, channelId}) => {
-            socket.broadcast.to(`server-${serverId}`).emit('stopTyping', {userId: socket.data.userId, channelId});
+            socket.broadcast.to(`server-${serverId}`).emit('stopTyping', {user: socket.data.user, channelId});
         })
 
         socket.on('disconnect', () => {
-            const index = online.indexOf(socket.data.userId)
+            const index = online.indexOf(socket.data.user?._id)
             if (index > -1) online.splice(index, 1)
             io.emit('status', online)
         })

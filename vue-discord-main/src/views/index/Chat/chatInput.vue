@@ -19,9 +19,7 @@
     :validation-schema="schema"
   >
     <div
-      v-if="
-        usersTyping && usersTyping.length >= 1 && usersTyping[0] !== user?._id
-      "
+      v-if="typingString"
       class="w-[95%] text-white_500 rounded px-2 py-1 loading"
     >
       {{ typingString }}
@@ -53,24 +51,15 @@ export default {
     ...mapGetters("channel", ["channelName", "usersTyping"]),
     ...mapState("auth", ["user"]),
     typingString() {
-      const usernames = [];
+      if(!this.usersTyping || !this.usersTyping.length) return null;
 
-      this.usersTyping?.forEach((userId) => {
-        const username = this.users?.find((user) => {
-          return user._id === userId && userId !== this.user._id;
-        })?.username;
-        if (username) usernames.push(username);
-      });
+      const usernames = this.usersTyping.map(u => u.username)
 
-      if (usernames.length === 2)
-        return `${usernames[0]} ${this.$t("chat.and")} ${
-          usernames[1]
-        } ${this.$t("chat.are_typing")}`;
-      else if (usernames.length > 2)
-        return `${usernames[0]} ${usernames[1]} ${this.$t("chat.and")} ${
-          usernames.length - 2
-        } ${this.$t("chat.more_typing")}`;
-      else return `${usernames[0]} ${this.$t("chat.is_typing")}`;
+      return this.$tc('chat.typing', usernames.length - 1, {
+        user: usernames[0],
+        ...(usernames.length >= 2 && { user2: usernames[1] }),
+        ...(usernames.length > 2 && { more: usernames.length - 2 })
+      })
     },
   },
   data() {
@@ -79,7 +68,7 @@ export default {
     });
     return {
       schema,
-      debounceTime: 500,
+      debounceTime: 50000,
       typing: false,
       image: null,
       timer: null,
@@ -99,10 +88,9 @@ export default {
         fd.append("image", blob);
       }
 
-      fd.append("content", message);
+      fd.append("content", message || '');
       this.$refs.chatbar.reset();
       this.sendMessage(fd).then(() => (this.image = null));
-      this.stopTyping();
     },
     debounceInput() {
       if (!this.typing) {
