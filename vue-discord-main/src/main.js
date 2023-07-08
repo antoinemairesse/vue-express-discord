@@ -30,6 +30,15 @@ setLocale({
 });
 
 const app = createApp(App);
+app.directive('loading', (el, binding) => {
+  if (binding.value) {
+    el.classList.add("state-loading");
+    el.setAttribute("disabled", "disabled");
+  } else {
+    el.classList.remove("state-loading");
+    el.removeAttribute("disabled");
+  }
+});
 app.config.globalProperties.$axios = $axios;
 app.config.globalProperties.$api = $api;
 store.$api = $api;
