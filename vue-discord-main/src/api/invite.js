@@ -1,15 +1,15 @@
-import Api from './axios';
+import Api from "./axios";
 
-const END_POINT = 'invites';
+const END_POINT = "invites";
 
 export default {
-    create(data) {
-        return Api.post(END_POINT, data, {withCredentials: true});
-    },
-    get(code) {
-        return Api.get(`${END_POINT}/${code}`, {withCredentials: true});
-    },
-    accept(data) {
-        return Api.post(`${END_POINT}/accept`, data, {withCredentials: true});
-    },
+  create(data) {
+    return Api.post(END_POINT, data, { withCredentials: true });
+  },
+  get(code) {
+    return Api.get(`${END_POINT}/${code}`, { withCredentials: true });
+  },
+  accept(data) {
+    return Api.post(`${END_POINT}/accept`, data, { withCredentials: true });
+  },
 };
