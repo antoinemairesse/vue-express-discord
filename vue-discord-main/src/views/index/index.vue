@@ -11,7 +11,7 @@
 
 <script>
 import ServerBar from "./ServerBar/index.vue";
-import Channel from "./Channels/index.vue";
+import Channels from "./Channels/index.vue";
 import Chat from "./Chat/index.vue";
 import Members from "./Members/index.vue";
 import { NMessageProvider } from "naive-ui";
@@ -19,7 +19,7 @@ import { mapActions } from "vuex";
 
 export default {
   name: "index",
-  components: { Members, Chat, Channel, ServerBar, NMessageProvider },
+  components: { Members, Chat, Channels, ServerBar, NMessageProvider },
   methods: {
     ...mapActions("auth", ["getAuthUser"]),
   },

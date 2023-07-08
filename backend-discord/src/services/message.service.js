@@ -19,7 +19,7 @@ module.exports.createMessage = async (req) => {
     if (!req.file && (typeof data.content !== "string" || data.content.length < 1))
         throw new ApiError(httpStatus.BAD_REQUEST, `No channel with id : ${data.channel}`);
 
-    if(req.file) data.attachment = await getImageUrl(req, [200, 200, {fit: 'inside'}]);
+    if(req.file) data.attachment = await getImageUrl(req, []);
 
     const channel = await Channel.findOne({_id: data.channel})
     if (!channel) throw new ApiError(httpStatus.NOT_FOUND, `No channel with id : ${data.channel}`);

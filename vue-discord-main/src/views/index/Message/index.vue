@@ -2,6 +2,15 @@
   <div
     class="flex mb-5 relative group justify-between px-5 hover:bg-gray_700/[0.75]"
   >
+    <n-modal class="max-h-[90vh] max-w-[90vw]" v-model:show="showAttachmentPreview">
+      <img
+          v-if="message.attachment"
+          class="mx-auto	block my-2"
+          :src="message.attachment"
+          :alt="message.content"
+          @click="previewAttachment(message.attachment)"
+      />
+    </n-modal>
     <div class="flex gap-3 w-full">
       <div
         class="w-10 h-10 mt-1 rounded-full bg-cover bg-center flex-shrink-0"
@@ -27,9 +36,10 @@
           </span>
           <img
             v-if="message.attachment"
-            class="block w-auto h-auto max-w-[300px] max-h-[300px] my-2"
+            class="block w-auto h-auto max-w-[300px] max-h-[300px] my-2 cursor-pointer"
             :src="message.attachment"
-            alt=""
+            :alt="message.content"
+            @click="previewAttachment"
           />
         </div>
 
@@ -62,19 +72,22 @@ import moment from "moment";
 import { mapActions, mapGetters, mapState } from "vuex";
 import userPhotoURL from "../../../mixins/userPhotoURL";
 import EditForm from "./editForm.vue";
+import { NModal } from "naive-ui";
 
 export default {
   name: "Message",
-  components: { EditForm },
+  components: { EditForm, NModal },
   emits: ["delete"],
   mixins: [userPhotoURL],
   props: {
     message: null,
-    sender: null,
+    sender: null
   },
   data() {
     return {
       moment,
+      showAttachmentPreview: false
+
     };
   },
   computed: {
@@ -90,6 +103,9 @@ export default {
     editMessage() {
       this.setEditMessageId(this.message._id);
     },
+    previewAttachment(){
+      this.showAttachmentPreview = true;
+    }
   },
 };
 </script>
