@@ -5,6 +5,7 @@ import channels from "./channels/index";
 import messages from "./messages/index";
 import servers from "./servers/index";
 import users from "./users/index";
+import invites from "./invites/index";
 
 function createWebSocketPlugin(socket) {
   return (store) => {
@@ -68,6 +69,7 @@ export default createStore({
     channels,
     messages,
     users,
+    invites,
   },
   plugins: [webSocketPlugin],
 });

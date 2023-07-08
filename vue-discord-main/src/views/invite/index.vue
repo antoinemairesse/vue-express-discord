@@ -1,7 +1,7 @@
 <template>
   <div class="w-screen h-screen bg-login flex justify-center items-center">
     <div
-      v-if="!invalid && !ban"
+      v-if="!invalid && !banned"
       class="bg-gray_600 rounded-xl p-10 w-[600px] flex items-center flex-col"
     >
       <div
@@ -30,7 +30,7 @@
       </button>
     </div>
     <div
-      v-else-if="ban"
+      v-else-if="banned"
       class="bg-gray_600 rounded-xl p-10 w-[600px] flex items-center flex-col"
     >
       <img class="mb-5" src="/src/assets/invite-invalid.svg" alt="" />
@@ -85,48 +85,31 @@ export default {
   mixins: [serverPhotoURL, userPhotoURL],
   data() {
     return {
-      loading: true,
-      ban: false,
       code: null,
-      invalid: false,
-      sender: null,
-      server: null,
-      members: 0,
     };
   },
   computed: {
     ...mapState("auth", ["user"]),
+    ...mapState("invites", [
+      "banned",
+      "members",
+      "server",
+      "sender",
+      "loading",
+      "invalid",
+    ]),
   },
   mounted() {
-    this.getAuthUser().then(async () => {
-      const code = this.$route.query.code;
-      this.code = code;
-      let invite = null;
-
-      try {
-        invite = (await this.$api.invites.get(code, { userId: this.user._id }))
-          .data;
-      } catch (e) {
-        this.invalid = true;
-        return;
-      }
-
-      this.sender = invite.sender;
-      this.server = invite.server;
-      this.members = invite.members;
-      this.ban = invite.banned;
-
-      this.loading = false;
-    });
+    this.code = this.$route.query.code;
+    this.getInvite(this.code);
   },
   methods: {
-    ...mapActions("auth", ["getAuthUser"]),
+    ...mapActions("invites", ["acceptInvite", "getInvite"]),
     continueToDiscord() {
       this.$router.push("/");
     },
     accept() {
-      const code = this.code;
-      this.$api.invites.accept({ code }).then(() => this.$router.push("/"));
+      this.acceptInvite(this.code).then(() => this.continueToDiscord());
     },
   },
 };
