@@ -32,7 +32,7 @@
         default-expanded-names="1"
       >
         <n-collapse-item :title="$t('channel.type.text')" name="1">
-          <div v-for="channel in channels" @click="selectChannel(channel)">
+          <div v-for="channel in channels" @click="setSelectedChannel(channel)">
             <Channel
               :channel="channel"
               @update="$refs.channelUpdate.toggle(channel)"
@@ -57,7 +57,7 @@ import Channel from "./Channel.vue";
 import UserControls from "./userControls.vue";
 
 export default {
-  name: "Channel",
+  name: "Channels",
   components: {
     UserControls,
     Channel,
@@ -77,10 +77,7 @@ export default {
     ...mapState("auth", ["user"]),
   },
   methods: {
-    ...mapActions("channel", ["setSelectedChannel"]),
-    selectChannel(channel) {
-      this.setSelectedChannel(channel);
-    },
+    ...mapActions("channel", ["setSelectedChannel"])
   },
 };
 </script>
