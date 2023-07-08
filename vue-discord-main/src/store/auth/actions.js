@@ -37,7 +37,7 @@ export const getAuthUser = ({ commit }) => {
     commit("SET_USER", response.data);
     socket.emit("online", {
       _id: response.data._id,
-      username: response.data.username
+      username: response.data.username,
     });
     return response.data;
   });

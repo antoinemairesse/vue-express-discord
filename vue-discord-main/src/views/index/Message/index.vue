@@ -2,13 +2,16 @@
   <div
     class="flex mb-5 relative group justify-between px-5 hover:bg-gray_700/[0.75]"
   >
-    <n-modal class="max-h-[90vh] max-w-[90vw]" v-model:show="showAttachmentPreview">
+    <n-modal
+      class="max-h-[90vh] max-w-[90vw]"
+      v-model:show="showAttachmentPreview"
+    >
       <img
-          v-if="message.attachment"
-          class="mx-auto	block my-2"
-          :src="message.attachment"
-          :alt="message.content"
-          @click="previewAttachment(message.attachment)"
+        v-if="message.attachment"
+        class="mx-auto block my-2"
+        :src="message.attachment"
+        :alt="message.content"
+        @click="previewAttachment(message.attachment)"
       />
     </n-modal>
     <div class="flex gap-3 w-full">
@@ -81,13 +84,12 @@ export default {
   mixins: [userPhotoURL],
   props: {
     message: null,
-    sender: null
+    sender: null,
   },
   data() {
     return {
       moment,
-      showAttachmentPreview: false
-
+      showAttachmentPreview: false,
     };
   },
   computed: {
@@ -103,9 +105,9 @@ export default {
     editMessage() {
       this.setEditMessageId(this.message._id);
     },
-    previewAttachment(){
+    previewAttachment() {
       this.showAttachmentPreview = true;
-    }
+    },
   },
 };
 </script>

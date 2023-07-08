@@ -102,15 +102,18 @@ export const deleteChannel = ({ commit, dispatch, state }, channel) => {
   dispatch("setSelectedChannel", channel);
 };
 
-export const sendTyping = ({rootState}, typing) => {
+export const sendTyping = ({ rootState }, typing) => {
   const serverId = rootState.server.selectedServer._id;
   const channelId = rootState.channel.selectedChannel._id;
   const event = typing ? "typing" : "stopTyping";
-  socket.emit(event, {serverId, channelId});
-}
+  socket.emit(event, { serverId, channelId });
+};
 
-export const addTypingUser = ({ state, commit, rootState }, { user, channelId }) => {
-  if(user._id === rootState.auth.user._id) return;
+export const addTypingUser = (
+  { state, commit, rootState },
+  { user, channelId },
+) => {
+  if (user._id === rootState.auth.user._id) return;
   const users = state.usersTyping.get(channelId) || [];
   users.push(user);
   commit("SET_TYPING", { channelId, users });
@@ -118,7 +121,7 @@ export const addTypingUser = ({ state, commit, rootState }, { user, channelId })
 
 export const removeTypingUser = ({ state, commit }, { user, channelId }) => {
   let users = state.usersTyping.get(channelId) || [];
-  users = users.filter((u)=> u._id !== user._id);
+  users = users.filter((u) => u._id !== user._id);
   commit("SET_TYPING", { channelId, users });
 };
 

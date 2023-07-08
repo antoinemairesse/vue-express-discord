@@ -101,7 +101,8 @@ export default {
     },
     chat: {
       and: "et",
-      typing: "{user} est en train d'écrire | {user} et {user2} sont en train d'écrire | {user}, {user2} and {more} autres sont en train d'écrire",
+      typing:
+        "{user} est en train d'écrire | {user} et {user2} sont en train d'écrire | {user}, {user2} and {more} autres sont en train d'écrire",
     },
     invite: {
       send: "Envoyer un lien d'invitation au serveur à un ami",

@@ -30,7 +30,7 @@ setLocale({
 });
 
 const app = createApp(App);
-app.directive('loading', (el, binding) => {
+app.directive("loading", (el, binding) => {
   if (binding.value) {
     el.classList.add("state-loading");
     el.setAttribute("disabled", "disabled");

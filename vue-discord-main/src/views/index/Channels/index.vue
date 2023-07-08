@@ -77,7 +77,7 @@ export default {
     ...mapState("auth", ["user"]),
   },
   methods: {
-    ...mapActions("channel", ["setSelectedChannel"])
+    ...mapActions("channel", ["setSelectedChannel"]),
   },
 };
 </script>

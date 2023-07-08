@@ -35,7 +35,7 @@
 </template>
 
 <script>
-import {mapActions, mapGetters, mapState} from "vuex";
+import { mapActions, mapGetters, mapState } from "vuex";
 import { Form } from "vee-validate";
 import UploadScreen from "./uploadScreen.vue";
 
@@ -45,16 +45,16 @@ export default {
   components: { UploadScreen, Form },
   computed: {
     ...mapGetters("channel", ["channelName", "usersTyping"]),
-    ...mapState("message", {messageLoading: 'loading'}),
+    ...mapState("message", { messageLoading: "loading" }),
     typingString() {
-      if(!this.usersTyping || !this.usersTyping.length) return null;
+      if (!this.usersTyping || !this.usersTyping.length) return null;
 
-      const usernames = this.usersTyping.map(u => u.username);
-      return this.$tc('chat.typing', usernames.length - 1, {
+      const usernames = this.usersTyping.map((u) => u.username);
+      return this.$tc("chat.typing", usernames.length - 1, {
         user: usernames[0],
         ...(usernames.length >= 2 && { user2: usernames[1] }),
-        ...(usernames.length > 2 && { more: usernames.length - 2 })
-      })
+        ...(usernames.length > 2 && { more: usernames.length - 2 }),
+      });
     },
   },
   data() {
@@ -63,7 +63,7 @@ export default {
       typing: false,
       image: null,
       message: null,
-      timer: null
+      timer: null,
     };
   },
   methods: {
@@ -76,10 +76,10 @@ export default {
       const message = this.message;
       if ((!message || message.length < 1) && !this.image) return;
 
-      this.sendMessage({message, image: this.image}).then(() => {
+      this.sendMessage({ message, image: this.image }).then(() => {
         this.message = null;
         this.deleteImage();
-      })
+      });
     },
     debounceInput() {
       if (!this.typing) {

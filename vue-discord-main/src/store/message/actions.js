@@ -2,7 +2,7 @@ import $api from "@/api";
 
 export const sendMessage = async ({ commit, rootState }, data) => {
   const channel = rootState.channel.selectedChannel?._id;
-  if(!channel) return;
+  if (!channel) return;
   commit("SET_LOADING", true);
 
   const fd = new FormData();
@@ -11,11 +11,10 @@ export const sendMessage = async ({ commit, rootState }, data) => {
     const blob = await fetch(data.image).then((r) => r.blob());
     fd.append("image", blob);
   }
-  fd.append("content", data.message || '');
+  fd.append("content", data.message || "");
   fd.append("channel", channel);
 
-  await $api.messages.send(fd)
-    .finally(() => commit("SET_LOADING", false));
+  await $api.messages.send(fd).finally(() => commit("SET_LOADING", false));
 };
 
 export const getMessages = (
@@ -37,7 +36,8 @@ export const getMoreMessages = ({ commit, state, rootState }) => {
   const channel = rootState.channel.selectedChannel;
   const { page } = state;
 
-  return $api.channels.getMessages(channel._id, page + 1)
+  return $api.channels
+    .getMessages(channel._id, page + 1)
     .then((response) => {
       const { itemCount, page, pageCount, messages } = response.data;
       commit("ADD_MESSAGES", { channelId: channel._id, messages });
