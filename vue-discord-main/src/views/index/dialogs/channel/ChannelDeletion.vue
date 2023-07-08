@@ -43,7 +43,7 @@ export default {
       this.show = !this.show;
     },
     _delete() {
-      this.$api.channel
+      this.$api.channels
         .delete(this.channel?._id)
         .catch((e) => this.errorMessage(e, "channel.delete_error"))
         .finally(() => (this.show = false));

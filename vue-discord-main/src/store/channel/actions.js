@@ -126,5 +126,7 @@ export const removeTypingUser = ({ state, commit }, { user, channelId }) => {
 };
 
 const setDocumentTitle = (channelName, serverName) => {
-  document.title = `Discord | #${channelName} | ${serverName}` || "Discord";
+  const channel = channelName ? `| #${channelName}` : ''
+  const server = serverName ? `| ${serverName}` : ''
+  document.title = `Discord ${server} ${channel}`;
 };

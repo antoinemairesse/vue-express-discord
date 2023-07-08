@@ -50,7 +50,7 @@ export default {
       this.show = !this.show;
     },
     update(data) {
-      this.$api.channel
+      this.$api.channels
         .update(this.channel?._id, data)
         .catch((e) => this.errorMessage(e, "channel.edit_error"))
         .finally(() => (this.show = false));
