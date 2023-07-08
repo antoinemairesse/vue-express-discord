@@ -94,14 +94,14 @@ export default {
   },
   computed: {
     ...mapGetters("auth", ["permissions"]),
-    ...mapState("message", ["editMessageId"]),
+    ...mapState("messages", ["editMessageId"]),
     ...mapState("auth", ["user"]),
     editMode() {
       return this.message._id === this.editMessageId;
     },
   },
   methods: {
-    ...mapActions("message", ["setEditMessageId"]),
+    ...mapActions("messages", ["setEditMessageId"]),
     editMessage() {
       this.setEditMessageId(this.message._id);
     },

@@ -39,7 +39,7 @@ export default {
     };
   },
   methods: {
-    ...mapActions("server", ["deleteServer"]),
+    ...mapActions("servers", ["deleteServer"]),
     toggle(server) {
       this.server = server;
       this.show = !this.show;

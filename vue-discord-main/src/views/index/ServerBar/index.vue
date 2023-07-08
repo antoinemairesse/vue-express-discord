@@ -82,9 +82,9 @@ export default {
     };
   },
   computed: {
-    ...mapGetters("server", ["permissionsForServer"]),
+    ...mapGetters("servers", ["permissionsForServer"]),
     ...mapState("auth", ["user"]),
-    ...mapState("server", ["servers", "selectedServer"]),
+    ...mapState("servers", ["servers", "selectedServer"]),
     permissions() {
       return this.permissionsForServer(this.contextMenuItem?._id);
     },
@@ -120,7 +120,7 @@ export default {
     },
   },
   methods: {
-    ...mapActions("server", [
+    ...mapActions("servers", [
       "getServers",
       "setSelectedServer",
       "deleteServer",

@@ -1,5 +1,5 @@
 export const userWithServerContext = (state, getters, rootState) => {
-  const res = rootState.server.selectedServer?.members.find((member) => {
+  const res = rootState.servers.selectedServer?.members.find((member) => {
     return state.user?._id === member.member._id;
   });
   const user = res?.member;

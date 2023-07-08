@@ -47,13 +47,13 @@ export default {
     },
   },
   computed: {
-    ...mapState("message", ["editMessageId"]),
+    ...mapState("messages", ["editMessageId"]),
     editMode() {
       return this.message._id === this.editMessageId;
     },
   },
   methods: {
-    ...mapActions("message", ["setEditMessageId"]),
+    ...mapActions("messages", ["setEditMessageId"]),
     startEdit() {
       this.$nextTick(() => {
         const textarea = this.$refs.textarea;

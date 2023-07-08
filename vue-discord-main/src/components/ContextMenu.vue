@@ -40,7 +40,7 @@ export default {
   },
   computed: {
     ...mapState("auth", ["user"]),
-    ...mapState("server", ["selectedServer"]),
+    ...mapState("servers", ["selectedServer"]),
     menuStyle() {
       return {
         position: "fixed",

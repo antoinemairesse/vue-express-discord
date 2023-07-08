@@ -55,7 +55,7 @@ export default {
     };
   },
   methods: {
-    ...mapActions("channel", ["createChannel"]),
+    ...mapActions("channels", ["createChannel"]),
     toggle() {
       this.show = !this.show;
     },

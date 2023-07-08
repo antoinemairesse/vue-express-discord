@@ -1,7 +1,7 @@
 import $api from "@/api";
 
 export const sendMessage = async ({ commit, rootState }, data) => {
-  const channel = rootState.channel.selectedChannel?._id;
+  const channel = rootState.channels.selectedChannel?._id;
   if (!channel) return;
   commit("SET_LOADING", true);
 
@@ -33,7 +33,7 @@ export const getMessages = (
 export const getMoreMessages = ({ commit, state, rootState }) => {
   if (state.loading) return;
   commit("SET_LOADING", true);
-  const channel = rootState.channel.selectedChannel;
+  const channel = rootState.channels.selectedChannel;
   const { page } = state;
 
   return $api.channels

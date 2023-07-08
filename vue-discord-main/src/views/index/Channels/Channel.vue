@@ -35,10 +35,10 @@ export default {
   components: { ChannelActions },
   emits: ["update", "delete"],
   computed: {
-    ...mapState("channel", ["selectedChannel"]),
+    ...mapState("channels", ["selectedChannel"]),
     ...mapState("auth", ["user"]),
-    ...mapGetters("user", ["users"]),
-    ...mapState("server", ["selectedServer"]),
+    ...mapGetters("users", ["users"]),
+    ...mapState("servers", ["selectedServer"]),
   },
   props: {
     channel: null,

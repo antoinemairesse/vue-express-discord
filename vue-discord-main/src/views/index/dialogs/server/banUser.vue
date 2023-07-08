@@ -42,7 +42,7 @@ export default {
     };
   },
   computed: {
-    ...mapState("server", ["selectedServer"]),
+    ...mapState("servers", ["selectedServer"]),
   },
   methods: {
     toggle(user) {

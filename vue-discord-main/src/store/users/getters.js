@@ -1,7 +1,7 @@
 import _ from "lodash";
 
 export const users = (state, getters, rootState) => {
-  const selectedServer = rootState.server.selectedServer;
+  const selectedServer = rootState.servers.selectedServer;
   if (selectedServer && state.users.get(selectedServer._id)) {
     return state.users.get(selectedServer._id);
   }

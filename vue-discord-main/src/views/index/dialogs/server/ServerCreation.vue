@@ -55,7 +55,7 @@ export default {
     };
   },
   methods: {
-    ...mapActions("server", ["createServer"]),
+    ...mapActions("servers", ["createServer"]),
     toggle() {
       this.show = !this.show;
     },

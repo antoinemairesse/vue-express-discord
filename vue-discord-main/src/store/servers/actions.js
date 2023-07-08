@@ -7,7 +7,7 @@ export const getServers = ({ commit, dispatch }) => {
 
     // tell server that we want update on these servers
     servers.forEach((server) => {
-      dispatch("user/setUsers", server, { root: true });
+      dispatch("users/setUsers", server, { root: true });
       socket.emit("serverUpdate", server._id);
     });
 
@@ -33,7 +33,7 @@ export const setSelectedServer = (
   localStorage.setItem("selectedServerId", server._id);
   socket.emit("selectServer", server._id);
   commit("SET_SELECTED_SERVER", server);
-  dispatch("channel/setChannels", server, { root: true });
+  dispatch("channels/setChannels", server, { root: true });
 };
 
 export const createServer = ({ commit, dispatch }, data) => {
@@ -65,6 +65,6 @@ export const deleteServer = (
   commit("DELETE_SERVER", serverId);
   commit("SET_SELECTED_SERVER", state.servers[0]);
 
-  const channel = rootState.channel.channels.get(state.servers[0]?._id)[0];
-  dispatch("channel/setSelectedChannel", channel, { root: true });
+  const channel = rootState.channels.channels.get(state.servers[0]?._id)[0];
+  dispatch("channels/setSelectedChannel", channel, { root: true });
 };

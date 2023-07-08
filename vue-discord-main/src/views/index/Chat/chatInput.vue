@@ -44,8 +44,8 @@ export default {
   inject: ["$socket"],
   components: { UploadScreen, Form },
   computed: {
-    ...mapGetters("channel", ["channelName", "usersTyping"]),
-    ...mapState("message", { messageLoading: "loading" }),
+    ...mapGetters("channels", ["channelName", "usersTyping"]),
+    ...mapState("messages", { messageLoading: "loading" }),
     typingString() {
       if (!this.usersTyping || !this.usersTyping.length) return null;
 
@@ -67,8 +67,8 @@ export default {
     };
   },
   methods: {
-    ...mapActions("message", ["sendMessage"]),
-    ...mapActions("channel", ["sendTyping"]),
+    ...mapActions("messages", ["sendMessage"]),
+    ...mapActions("channels", ["sendTyping"]),
     deleteImage() {
       this.image = null;
     },

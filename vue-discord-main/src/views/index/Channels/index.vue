@@ -70,14 +70,14 @@ export default {
   },
   computed: {
     ...mapGetters("auth", ["permissions"]),
-    ...mapGetters("server", ["serverName"]),
-    ...mapGetters("channel", ["channels"]),
-    ...mapState("channel", ["selectedChannel"]),
-    ...mapState("server", ["selectedServer"]),
+    ...mapGetters("servers", ["serverName"]),
+    ...mapGetters("channels", ["channels"]),
+    ...mapState("channels", ["selectedChannel"]),
+    ...mapState("servers", ["selectedServer"]),
     ...mapState("auth", ["user"]),
   },
   methods: {
-    ...mapActions("channel", ["setSelectedChannel"]),
+    ...mapActions("channels", ["setSelectedChannel"]),
   },
 };
 </script>

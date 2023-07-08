@@ -5,20 +5,20 @@ export const setSelectedChannel = (
   { commit, dispatch, rootState, state },
   channel,
 ) => {
-  const serverId = rootState.server.selectedServer?._id;
+  const serverId = rootState.servers.selectedServer?._id;
   const channelId = channel?._id;
 
   if (state.selectedChannel?._id === channel?._id) return;
 
   commit("SET_SELECTED_CHANNEL", channel);
-  setDocumentTitle(channel?.name, rootState.server.selectedServer?.name);
+  setDocumentTitle(channel?.name, rootState.servers.selectedServer?.name);
   if (channel) socket.emit("selectChannel", channel._id);
   commit("ADD_SELECTED_CHANNEL", { serverId, channelId });
   localStorage.setItem(
     "serverSelectedChannel",
     JSON.stringify(Object.fromEntries(state.serverSelectedChannel)),
   );
-  dispatch("message/getMessages", channel, { root: true });
+  dispatch("messages/getMessages", channel, { root: true });
 };
 
 export const setChannels = async (
@@ -51,7 +51,7 @@ export const setChannels = async (
 };
 
 export const createChannel = ({ rootState }, data) => {
-  const server = rootState.server.selectedServer?._id;
+  const server = rootState.servers.selectedServer?._id;
   return $api.channels.create({ ...data, server });
 };
 
@@ -84,7 +84,7 @@ export const updateChannel = (
 
   if (channel._id === state.selectedChannel._id) {
     commit("SET_SELECTED_CHANNEL", channel);
-    setDocumentTitle(channel?.name, rootState.server.selectedServer?.name);
+    setDocumentTitle(channel?.name, rootState.servers.selectedServer?.name);
   }
 };
 
@@ -103,8 +103,8 @@ export const deleteChannel = ({ commit, dispatch, state }, channel) => {
 };
 
 export const sendTyping = ({ rootState }, typing) => {
-  const serverId = rootState.server.selectedServer._id;
-  const channelId = rootState.channel.selectedChannel._id;
+  const serverId = rootState.servers.selectedServer._id;
+  const channelId = rootState.channels.selectedChannel._id;
   const event = typing ? "typing" : "stopTyping";
   socket.emit(event, { serverId, channelId });
 };
@@ -126,7 +126,7 @@ export const removeTypingUser = ({ state, commit }, { user, channelId }) => {
 };
 
 const setDocumentTitle = (channelName, serverName) => {
-  const channel = channelName ? `| #${channelName}` : ''
-  const server = serverName ? `| ${serverName}` : ''
+  const channel = channelName ? `| #${channelName}` : "";
+  const server = serverName ? `| ${serverName}` : "";
   document.title = `Discord ${server} ${channel}`;
 };

@@ -50,7 +50,7 @@ export default {
   },
   computed: {
     ...mapGetters("auth", ["permissions"]),
-    ...mapState("channel", ["selectedChannel"]),
+    ...mapState("channels", ["selectedChannel"]),
     ...mapState("auth", ["user"]),
   },
 };

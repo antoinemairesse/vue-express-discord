@@ -101,11 +101,11 @@ export default {
   name: "Chat",
   components: { ChatInput, MessageDeletion, Message, NDivider },
   computed: {
-    ...mapGetters("user", ["users"]),
-    ...mapGetters("channel", ["channelName"]),
-    ...mapGetters("message", ["messages"]),
-    ...mapState("channel", ["selectedChannel"]),
-    ...mapState("message", ["page", "pageCount", "loading"]),
+    ...mapGetters("users", ["users"]),
+    ...mapGetters("channels", ["channelName"]),
+    ...mapGetters("messages", ["messages"]),
+    ...mapState("channels", ["selectedChannel"]),
+    ...mapState("messages", ["page", "pageCount", "loading"]),
   },
   data() {
     return {
@@ -113,7 +113,7 @@ export default {
     };
   },
   methods: {
-    ...mapActions("message", ["getMoreMessages"]),
+    ...mapActions("messages", ["getMoreMessages"]),
     isScrolledIntoView(el) {
       let rect = el.getBoundingClientRect();
       return rect.top < window.innerHeight && rect.bottom >= 0;

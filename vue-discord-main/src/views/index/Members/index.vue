@@ -81,8 +81,8 @@ export default {
   computed: {
     ...mapGetters("auth", ["userWithServerContext", "permissions"]),
     ...mapState("auth", ["user"]),
-    ...mapState("server", ["selectedServer"]),
-    ...mapGetters("user", ["users", "status"]),
+    ...mapState("servers", ["selectedServer"]),
+    ...mapGetters("users", ["users", "status"]),
     contextMenuItems() {
       return [
         {

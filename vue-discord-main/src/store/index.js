@@ -1,59 +1,61 @@
 import { createStore } from "vuex";
 import socket from "../socket";
 import auth from "./auth/index";
-import channel from "./channel/index";
-import message from "./message/index";
-import server from "./server/index";
-import user from "./user/index";
+import channels from "./channels/index";
+import messages from "./messages/index";
+import servers from "./servers/index";
+import users from "./users/index";
 
 function createWebSocketPlugin(socket) {
   return (store) => {
     store.$socket = socket;
     socket.on("serverUpdate", (server) =>
-      store.dispatch("server/updateServer", server),
+      store.dispatch("servers/updateServer", server),
     );
     socket.on("serverDeletion", (server) =>
-      store.dispatch("server/deleteServer", server?._id),
+      store.dispatch("servers/deleteServer", server?._id),
     );
-    socket.on("serverJoin", (data) => store.dispatch("user/addUser", data));
-    socket.on("serverLeave", (data) => store.dispatch("user/removeUser", data));
+    socket.on("serverJoin", (data) => store.dispatch("users/addUser", data));
+    socket.on("serverLeave", (data) =>
+      store.dispatch("users/removeUser", data),
+    );
 
     socket.on("typing", (data) =>
-      store.dispatch("channel/addTypingUser", data),
+      store.dispatch("channels/addTypingUser", data),
     );
     socket.on("stopTyping", (data) =>
-      store.dispatch("channel/removeTypingUser", data),
+      store.dispatch("channels/removeTypingUser", data),
     );
 
     socket.on("kick", (serverId) => {
-      store.dispatch("server/deleteServer", serverId);
+      store.dispatch("servers/deleteServer", serverId);
       // reload to remove user from the websockets rooms of the server from which he was kicked
       window.location.replace("/");
     });
 
-    socket.on("userUpdate", (user) => store.dispatch("user/updateUser", user));
+    socket.on("userUpdate", (user) => store.dispatch("users/updateUser", user));
 
     socket.on("channelCreation", (channel) =>
-      store.dispatch("channel/addChannel", channel),
+      store.dispatch("channels/addChannel", channel),
     );
     socket.on("channelUpdate", (channel) =>
-      store.dispatch("channel/updateChannel", channel),
+      store.dispatch("channels/updateChannel", channel),
     );
     socket.on("channelDeletion", (channel) =>
-      store.dispatch("channel/deleteChannel", channel),
+      store.dispatch("channels/deleteChannel", channel),
     );
 
     socket.on("messageSent", (message) =>
-      store.dispatch("message/addMessage", message),
+      store.dispatch("messages/addMessage", message),
     );
     socket.on("messageUpdate", (message) =>
-      store.dispatch("message/updateMessage", message),
+      store.dispatch("messages/updateMessage", message),
     );
     socket.on("messageDeletion", (message) =>
-      store.dispatch("message/deleteMessage", message),
+      store.dispatch("messages/deleteMessage", message),
     );
 
-    socket.on("status", (status) => store.dispatch("user/setStatus", status));
+    socket.on("status", (status) => store.dispatch("users/setStatus", status));
   };
 }
 
@@ -61,11 +63,11 @@ const webSocketPlugin = createWebSocketPlugin(socket);
 
 export default createStore({
   modules: {
-    server,
+    servers,
     auth,
-    channel,
-    message,
-    user,
+    channels,
+    messages,
+    users,
   },
   plugins: [webSocketPlugin],
 });

@@ -5,7 +5,7 @@ import moment from "moment";
  *  the value is an array of messages that have been sent on the same day (= key)
  */
 export const messages = (state, getters, rootState) => {
-  const selectedChannel = rootState.channel.selectedChannel;
+  const selectedChannel = rootState.channels.selectedChannel;
   if (selectedChannel && state.messages.get(selectedChannel._id)) {
     let messagesPerDay = new Map();
     const messages = state.messages.get(selectedChannel._id);
