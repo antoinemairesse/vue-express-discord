@@ -3,35 +3,35 @@
 @tailwind utilities;
 
 .hide-scrollbar::-webkit-scrollbar {
-    display: none;
+  display: none;
 }
 
 .hide-scrollbar {
-    -ms-overflow-style: none; /* IE and Edge */
-    scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
 }
 
 /*Custom scrollbar*/
 .custom-scrollbar::-webkit-scrollbar {
-    width: 7px;
+  width: 7px;
 }
 .custom-scrollbar::-webkit-scrollbar-track {
-    background: #2E3136;
-    border-radius: 10px;
+  background: #2e3136;
+  border-radius: 10px;
 }
 .custom-scrollbar::-webkit-scrollbar-thumb {
-    background: #18191C;
-    border-radius: 10px;
+  background: #18191c;
+  border-radius: 10px;
 }
 
-.input-label{
-    @apply text-label text-[13px] font-bold mb-1.5 uppercase
+.input-label {
+  @apply text-label text-[13px] font-bold mb-1.5 uppercase;
 }
 
-.text-input{
-    @apply bg-gray_900 text-label rounded py-2 px-2 outline-0
+.text-input {
+  @apply bg-gray_900 text-label rounded py-2 px-2 outline-0;
 }
 
-.error-msg{
-    @apply text-red-500 text-sm
+.error-msg {
+  @apply text-red-500 text-sm;
 }

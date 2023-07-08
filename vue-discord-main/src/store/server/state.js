@@ -1,4 +1,4 @@
 export default {
-    servers: [],
-    selectedServer: null
+  servers: [],
+  selectedServer: null,
 };

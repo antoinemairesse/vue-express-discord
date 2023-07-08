@@ -2,8 +2,8 @@
   <n-tooltip trigger="hover" placement="right">
     <template #trigger>
       <div
-          class="w-12 h-12 flex justify-center items-center rounded-full bg-gray_600 hover:bg-green text-green hover:text-white_500 transition-all cursor-pointer"
-          @click="$emit('itemClick')"
+        class="w-12 h-12 flex justify-center items-center rounded-full bg-gray_600 hover:bg-green text-green hover:text-white_500 transition-all cursor-pointer"
+        @click="$emit('itemClick')"
       >
         <i :class="icon" class="text-2xl"></i>
       </div>
@@ -13,18 +13,16 @@
 </template>
 
 <script>
-import {NTooltip} from 'naive-ui';
+import { NTooltip } from "naive-ui";
 
 export default {
   name: "item",
-  components: {NTooltip},
+  components: { NTooltip },
   props: {
     i18nKey: String,
-    icon: String
-  }
-}
+    icon: String,
+  },
+};
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

@@ -1,49 +1,66 @@
 <template>
   <DialogWrapper :title="$t('settings.update')" v-model="show">
     <Form @submit="update" class="flex flex-col" :validation-schema="schema">
-
-      <ImageUpload v-model="image" :url="user?.photoURL"/>
+      <ImageUpload v-model="image" :url="user?.photoURL" />
 
       <div class="flex flex-col mb-5">
-        <h5 class="input-label">{{ $t('username') }}</h5>
-        <Field class="text-input" name="username" :value="user?.username"/>
-        <ErrorMessage class="error-msg" name="username"/>
+        <h5 class="input-label">{{ $t("username") }}</h5>
+        <Field class="text-input" name="username" :value="user?.username" />
+        <ErrorMessage class="error-msg" name="username" />
       </div>
 
       <div class="flex flex-col mb-5">
-        <h5 class="input-label">{{ $t('lang') }}</h5>
-        <n-select v-model:value="lang" :options="[{label: $t('en'), value: 'en'}, {label: $t('fr'), value: 'fr'}]"/>
+        <h5 class="input-label">{{ $t("lang") }}</h5>
+        <n-select
+          v-model:value="lang"
+          :options="[
+            { label: $t('en'), value: 'en' },
+            { label: $t('fr'), value: 'fr' },
+          ]"
+        />
       </div>
 
-      <button type="button" class="bg-red-500 text-white_500 px-10 py-2 rounded w-fit mx-auto mb-5" @click="logout">
-        {{ $t('logout') }}
+      <button
+        type="button"
+        class="bg-red-500 text-white_500 px-10 py-2 rounded w-fit mx-auto mb-5"
+        @click="logout"
+      >
+        {{ $t("logout") }}
       </button>
 
       <div class="flex gap-4 justify-end items-center">
-        <button type="button" class="text-white_500" @click="show = false">{{ $t('cancel') }}</button>
-        <button class="bg-purple text-white_500 rounded px-3 py-2.5">{{ $t('settings.update') }}</button>
+        <button type="button" class="text-white_500" @click="show = false">
+          {{ $t("cancel") }}
+        </button>
+        <button class="bg-purple text-white_500 rounded px-3 py-2.5">
+          {{ $t("settings.update") }}
+        </button>
       </div>
-
     </Form>
   </DialogWrapper>
 </template>
 
 <script>
-import {NSelect, useMessage} from 'naive-ui';
-import {ErrorMessage, Field, Form} from 'vee-validate';
-import * as yup from 'yup';
-import ImageUpload from '../../../components/imageUpload.vue';
-import DialogWrapper from '../../../components/dialogWrapper.vue';
-import {mapState} from 'vuex';
-import User from '@/api/user';
-import Auth from '@/api/auth';
-import {changeLang} from '@/i18n/i18n.service';
+import { NSelect, useMessage } from "naive-ui";
+import { ErrorMessage, Field, Form } from "vee-validate";
+import * as yup from "yup";
+import ImageUpload from "../../../components/imageUpload.vue";
+import DialogWrapper from "../../../components/dialogWrapper.vue";
+import { mapState } from "vuex";
+import { changeLang } from "@/i18n/i18n.service";
 import errorMessage from "@/mixins/errorMessage";
 
 export default {
-  name: 'settings',
+  name: "settings",
   mixins: [errorMessage],
-  components: {DialogWrapper, ImageUpload, Form, Field, ErrorMessage, NSelect},
+  components: {
+    DialogWrapper,
+    ImageUpload,
+    Form,
+    Field,
+    ErrorMessage,
+    NSelect,
+  },
   data() {
     const schema = yup.object({
       username: yup.string().min(3).max(30),
@@ -59,7 +76,7 @@ export default {
     };
   },
   watch: {
-    '$i18n.locale': function (newVal) {
+    "$i18n.locale": function (newVal) {
       this.lang = newVal;
     },
     lang(newValue) {
@@ -67,7 +84,7 @@ export default {
     },
   },
   computed: {
-    ...mapState('auth', ['user']),
+    ...mapState("auth", ["user"]),
   },
   methods: {
     toggle() {
@@ -81,24 +98,24 @@ export default {
     },
     update(data) {
       const fd = new FormData();
-      if (this.image) fd.append('image', this.image);
+      if (this.image) fd.append("image", this.image);
 
       for (const [key, value] of Object.entries(data)) {
         fd.append(key, value);
       }
 
-      User.update(fd)
-          .catch((e) => this.errorMessage(e, 'settings.edit_error'))
-          .finally(() => this.show = false);
+      this.$api.users
+        .update(fd)
+        .catch((e) => this.errorMessage(e, "settings.edit_error"))
+        .finally(() => (this.show = false));
     },
     logout() {
-      Auth.logout().then(() => {
-        this.$router.push('login');
+      this.$api.auth.logout().then(() => {
+        this.$router.push("login");
       });
     },
   },
 };
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>
