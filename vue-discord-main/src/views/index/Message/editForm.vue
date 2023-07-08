@@ -28,7 +28,6 @@
 
 <script>
 import { mapActions, mapState } from "vuex";
-import Message from "@/api/messages";
 
 export default {
   name: "editForm",
@@ -97,7 +96,7 @@ export default {
         this.editValue.length > 0 &&
         this.editValue !== this.message.content
       ) {
-        Message.update(this.message._id, { content: this.editValue }).then(() =>
+        this.$api.messages.update(this.message._id, { content: this.editValue }).then(() =>
           this.setEditMessageId(null),
         );
       }

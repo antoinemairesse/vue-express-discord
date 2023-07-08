@@ -61,7 +61,6 @@
 
 <script>
 import { NSelect, useMessage } from "naive-ui";
-import Invite from "@/api/invite";
 import expirations from "@/resources/expirations.json";
 import DialogWrapper from "@/components/dialogWrapper.vue";
 import errorMessage from "@/mixins/errorMessage";
@@ -94,7 +93,7 @@ export default {
     toggle(server) {
       this.server = server;
       this.show = !this.show;
-      Invite.create({ server: server._id, maxAge: this.expire })
+      this.$api.invites.create({ server: server._id, maxAge: this.expire })
         .then((response) => {
           this.code = response.data.code;
         })
@@ -114,7 +113,7 @@ export default {
       }, 1000);
     },
     generateNewLink() {
-      Invite.create({
+      this.$api.invites.create({
         server: this.server._id,
         ...(this.expire !== "never" && { maxAge: this.expire }),
         ...(this.expire === "never" && { neverExpires: true }),

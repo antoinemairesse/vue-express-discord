@@ -1,4 +1,3 @@
-import Message from "../../api/messages";
 import $api from "@/api";
 
 export const sendMessage = ({ commit, rootState }, data) => {
@@ -10,7 +9,7 @@ export const sendMessage = ({ commit, rootState }, data) => {
   } else document.getElementById("favicon").href = "/favicon-notif.png";
   const channel = rootState.channel.selectedChannel?._id;
   data.append("channel", channel);
-  if (channel) return Message.send(data);
+  if (channel) return $api.messages.send(data);
 };
 
 export const getMessages = (

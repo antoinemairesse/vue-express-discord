@@ -1,6 +1,5 @@
 import $api from "@/api";
 import socket from "../../socket";
-import Server from "../../api/server";
 
 export const setSelectedChannel = (
   { commit, dispatch, rootState, state },
@@ -35,7 +34,7 @@ export const setChannels = async (
   });
 
   if (!channel) {
-    channels = (await Server.getChannels(server._id)).data;
+    channels = (await $api.servers.getChannels(server._id)).data;
     if (!channels) return;
 
     channel = channels[0];

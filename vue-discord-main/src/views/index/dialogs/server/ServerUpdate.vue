@@ -30,7 +30,6 @@ import { ErrorMessage, Field, Form } from "vee-validate";
 import * as yup from "yup";
 import ImageUpload from "../../../../components/imageUpload.vue";
 import DialogWrapper from "../../../../components/dialogWrapper.vue";
-import Server from "@/api/server";
 import errorMessage from "@/mixins/errorMessage";
 
 export default {
@@ -77,7 +76,7 @@ export default {
         fd.append(key, value);
       }
 
-      Server.update(this.server?._id, fd)
+      this.$api.servers.update(this.server?._id, fd)
         .catch((e) => this.errorMessage(e, "server.edit_error"))
         .finally(() => this.reset());
     },

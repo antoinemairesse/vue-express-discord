@@ -76,9 +76,6 @@
 </template>
 
 <script>
-import Invite from "@/api/invite";
-import User from "@/api/user";
-import Server from "@/api/server";
 import serverPhotoURL from "../../mixins/serverPhotoURL";
 import { mapActions } from "vuex";
 import userPhotoURL from "../../mixins/userPhotoURL";
@@ -104,19 +101,19 @@ export default {
       let invite = null;
 
       try {
-        invite = (await Invite.get(code)).data;
+        invite = (await this.$api.invites.get(code)).data;
       } catch (e) {
         this.invalid = true;
         return;
       }
 
-      this.sender = (await User.get(invite.sender)).data;
-      const server = (await Server.get(invite.server)).data;
+      this.sender = (await this.$api.users.get(invite.sender)).data;
+      const server = (await this.$api.servers.get(invite.server)).data;
 
       this.members = server.members.length;
       this.server = server;
 
-      await Server.isUserBanned(
+      await this.$api.servers.isUserBanned(
         server._id,
         this.$store.state.auth.user?._id,
       ).then((response) => {
@@ -132,7 +129,7 @@ export default {
     },
     accept() {
       const code = this.code;
-      Invite.accept({ code }).then(() => this.$router.push("/"));
+      this.$api.invites.accept({ code }).then(() => this.$router.push("/"));
     },
   },
 };

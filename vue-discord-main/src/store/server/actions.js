@@ -1,8 +1,8 @@
-import Server from "../../api/server";
+import $api from "@/api";
 import socket from "../../socket";
 
 export const getServers = ({ commit, dispatch }) => {
-  Server.getAll().then((response) => {
+  $api.servers.getAll().then((response) => {
     const servers = response.data;
 
     // tell server that we want update on these servers
@@ -37,7 +37,7 @@ export const setSelectedServer = (
 };
 
 export const createServer = ({ commit, dispatch }, data) => {
-  return Server.create(data).then((response) => {
+  return $api.servers.create(data).then((response) => {
     const server = response.data;
     commit("ADD_SERVER", server);
     dispatch("setSelectedServer", server);

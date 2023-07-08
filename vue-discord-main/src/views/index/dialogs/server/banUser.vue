@@ -26,7 +26,6 @@ import { useMessage } from "naive-ui";
 import { ErrorMessage, Field, Form } from "vee-validate";
 import { mapState } from "vuex";
 import DialogWrapper from "../../../../components/dialogWrapper.vue";
-import Server from "@/api/server";
 import errorMessage from "@/mixins/errorMessage";
 
 export default {
@@ -51,7 +50,7 @@ export default {
       this.show = !this.show;
     },
     kick() {
-      Server.ban(this.selectedServer?._id, this.user?._id)
+      this.$api.servers.ban(this.selectedServer?._id, this.user?._id)
         .catch((e) => this.errorMessage(e, "server.ban_error"))
         .finally(() => (this.show = false));
     },

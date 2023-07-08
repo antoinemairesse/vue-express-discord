@@ -24,7 +24,6 @@
 import { useMessage } from "naive-ui";
 import { ErrorMessage, Field, Form } from "vee-validate";
 import DialogWrapper from "../../../../components/dialogWrapper.vue";
-import Server from "@/api/server";
 import { mapActions } from "vuex";
 import errorMessage from "@/mixins/errorMessage";
 
@@ -46,7 +45,7 @@ export default {
       this.show = !this.show;
     },
     leave() {
-      Server.leave(this.server?._id)
+      this.$api.servers.leave(this.server?._id)
         .then(() => this.deleteServer(this.server?._id))
         .catch((e) => this.errorMessage(e, "server.leave_error"))
         .finally(() => (this.show = false));

@@ -47,7 +47,6 @@ import * as yup from "yup";
 import ImageUpload from "../../../components/imageUpload.vue";
 import DialogWrapper from "../../../components/dialogWrapper.vue";
 import { mapState } from "vuex";
-import User from "@/api/user";
 import { changeLang } from "@/i18n/i18n.service";
 import errorMessage from "@/mixins/errorMessage";
 
@@ -105,7 +104,7 @@ export default {
         fd.append(key, value);
       }
 
-      User.update(fd)
+      this.$api.users.update(fd)
         .catch((e) => this.errorMessage(e, "settings.edit_error"))
         .finally(() => (this.show = false));
     },
