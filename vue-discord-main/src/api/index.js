@@ -1,9 +1,9 @@
-import Channels from "@/api/endpoints/channels";
-import Auth from "@/api/endpoints/auth";
-import Messages from "@/api/endpoints/messages";
-import Servers from "@/api/endpoints/servers";
-import Invites from "@/api/endpoints/invites";
-import Users from "@/api/endpoints/users";
+import Channels from "@/api/endpoints/Channels";
+import Auth from "@/api/endpoints/Auth";
+import Messages from "@/api/endpoints/Messages";
+import Servers from "@/api/endpoints/Servers";
+import Invites from "@/api/endpoints/Invites";
+import Users from "@/api/endpoints/Users";
 
 export default {
   auth: new Auth("auth"),

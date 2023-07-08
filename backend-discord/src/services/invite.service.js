@@ -1,12 +1,12 @@
 const ApiError = require("../utils/ApiError");
 const httpStatus = require("http-status");
-const {InternalServerError} = require("../utils/Errors");
+const { InternalServerError } = require("../utils/Errors");
 const Server = require("../models/server.model");
 const Invite = require("../models/invite.model");
-const {nanoid} = require("nanoid");
+const { nanoid } = require("nanoid");
 const User = require("../models/user.model");
 const Role = require("../models/role.model");
-const {getPermissions} = require('./server.service');
+const { getPermissions } = require("./server.service");
 
 /**
  * Creates an invite
@@ -14,42 +14,60 @@ const {getPermissions} = require('./server.service');
  * @returns {Promise<Invite>}
  */
 module.exports.createInvite = async (req) => {
-    const userId = req.auth.userId;
-    const data = req.body;
-    const maxAge = data.maxAge || parseInt(process.env.EXPIRATION);
-    const expiration = new Date(Date.now() + maxAge);
+  const userId = req.auth.userId;
+  const data = req.body;
+  const maxAge = data.maxAge || parseInt(process.env.EXPIRATION);
+  const expiration = new Date(Date.now() + maxAge);
 
-    const server = await Server.findOne({_id: data.server})
-    if (!server) throw new ApiError(httpStatus.NOT_FOUND, `No server with id : ${data.server}`);
+  const server = await Server.findOne({ _id: data.server });
+  if (!server)
+    throw new ApiError(
+      httpStatus.NOT_FOUND,
+      `No server with id : ${data.server}`,
+    );
 
-    if(!server.members.some(e => e.member.toString() === userId))
-        throw new ApiError(httpStatus.BAD_REQUEST, `You need to be a member of the server in order to invite people to it !`);
+  if (!server.members.some((e) => e.member.toString() === userId))
+    throw new ApiError(
+      httpStatus.BAD_REQUEST,
+      `You need to be a member of the server in order to invite people to it !`,
+    );
 
-    const permissions = await getPermissions(server._id.toString(), userId);
-    if(!permissions?.invitePeople)
-        throw new ApiError(httpStatus.FORBIDDEN, `You don't have permission to invite people to this server !`)
+  const permissions = await getPermissions(server._id.toString(), userId);
+  if (!permissions?.invitePeople)
+    throw new ApiError(
+      httpStatus.FORBIDDEN,
+      `You don't have permission to invite people to this server !`,
+    );
 
-    if(data.neverExpires){
-        const invite = await Invite.findOne({sender: userId, server: server._id, neverExpires: true})
-        if(invite) return invite;
-    }
-    else{
-        const invite = await Invite.findOne({
-            sender: userId,
-            server: server._id,
-            maxAge,
-            expiration: { $gte: Date.now() + (maxAge/2) },
-            neverExpires: false
-        })
-        if(invite) return invite;
-    }
+  if (data.neverExpires) {
+    const invite = await Invite.findOne({
+      sender: userId,
+      server: server._id,
+      neverExpires: true,
+    });
+    if (invite) return invite;
+  } else {
+    const invite = await Invite.findOne({
+      sender: userId,
+      server: server._id,
+      maxAge,
+      expiration: { $gte: Date.now() + maxAge / 2 },
+      neverExpires: false,
+    });
+    if (invite) return invite;
+  }
 
-    const code = nanoid(parseInt(process.env.NANOID_LENGTH));
+  const code = nanoid(parseInt(process.env.NANOID_LENGTH));
 
-    const invite = await Invite.create({...data, sender: userId, code, expiration})
-    if (!invite) throw new InternalServerError()
+  const invite = await Invite.create({
+    ...data,
+    sender: userId,
+    code,
+    expiration,
+  });
+  if (!invite) throw new InternalServerError();
 
-    return invite
+  return invite;
 };
 
 /**
@@ -58,15 +76,58 @@ module.exports.createInvite = async (req) => {
  * @returns {Promise<Invite>}
  */
 module.exports.getInvite = async (req) => {
-    const code = req.params.code;
+  const code = req.params.code;
+  const userId = req.query.userId;
 
-    const invite = await Invite.findOne({code})
-    if (!invite) throw new ApiError(httpStatus.NOT_FOUND, `No invite with code : ${code}`);
+  const invite = (
+    await Invite.aggregate([
+      {
+        $match: { code },
+      },
+      {
+        $lookup: {
+          from: "users",
+          localField: "sender",
+          foreignField: "_id",
+          as: "sender",
+        },
+      },
+      {
+        $lookup: {
+          from: "servers",
+          localField: "server",
+          foreignField: "_id",
+          as: "server",
+        },
+      },
+      {
+        $project: {
+          sender: { $arrayElemAt: ["$sender", 0] },
+          server: { $arrayElemAt: ["$server", 0] },
+          banned: { $max: { $eq: ["$server.bans", userId] } },
+        },
+      },
+      {
+        $project: {
+          "sender.username": 1,
+          "sender.photoURL": 1,
+          "server.photoURL": 1,
+          "server.name": 1,
+          "server._id": 1,
+          members: { $size: "$server.members" },
+          banned: 1,
+        },
+      },
+    ])
+  )[0];
 
-    if(invite.expiration < new Date()) throw new ApiError(httpStatus.GONE, `Invite is expired !`);
+  if (!invite)
+    throw new ApiError(httpStatus.NOT_FOUND, `No invite with code : ${code}`);
+  else if (invite.expiration < new Date())
+    throw new ApiError(httpStatus.GONE, `Invite is expired !`);
 
-    return invite
-}
+  return invite;
+};
 
 /**
  * Accept invite (make user join server)
@@ -74,38 +135,47 @@ module.exports.getInvite = async (req) => {
  * @returns {Promise<Server>}
  */
 module.exports.acceptInvite = async (req) => {
-    const userId = req.auth.userId;
-    const code = req.body.code;
-    const io = req.app.get('io');
+  const userId = req.auth.userId;
+  const code = req.body.code;
+  const io = req.app.get("io");
 
-    const invite = await Invite.findOne({code})
-    if (!invite) throw new ApiError(httpStatus.NOT_FOUND, `No invite with code : ${code}`);
+  const invite = await Invite.findOne({ code });
+  if (!invite)
+    throw new ApiError(httpStatus.NOT_FOUND, `No invite with code : ${code}`);
 
-    if(invite.expiration < new Date()) throw new ApiError(httpStatus.GONE, `Invite is expired !`);
+  if (invite.expiration < new Date())
+    throw new ApiError(httpStatus.GONE, `Invite is expired !`);
 
-    const serverId = invite.server;
+  const serverId = invite.server;
 
-    const server = await Server.findOne({_id: serverId});
-    if (!server) throw new ApiError(httpStatus.NOT_FOUND, `No server with id : ${serverId}`);
+  const server = await Server.findOne({ _id: serverId });
+  if (!server)
+    throw new ApiError(httpStatus.NOT_FOUND, `No server with id : ${serverId}`);
 
-    if(server.bans.includes(userId)) throw new ApiError(httpStatus.FORBIDDEN, `You are banned from this server !`);
+  if (server.bans.includes(userId))
+    throw new ApiError(
+      httpStatus.FORBIDDEN,
+      `You are banned from this server !`,
+    );
 
-
-    try {
-        if(!server.members.some(e => e.member.toString() === userId)){
-            server.members.push({
-                member: userId,
-                role: server.defaultRole
-            })
-            if(!server.users.includes(userId)) server.users.push(userId);
-            await server.save();
-            const user = await User.findOneAndUpdate({_id: userId}, {$addToSet: {servers: serverId}});
-            user._doc.role = await Role.findOne({_id: server.defaultRole});
-            io.to(`server-${serverId}`).emit('serverJoin', {user, serverId});
-        }
-    } catch (e) {
-        throw new InternalServerError()
+  try {
+    if (!server.members.some((e) => e.member.toString() === userId)) {
+      server.members.push({
+        member: userId,
+        role: server.defaultRole,
+      });
+      if (!server.users.includes(userId)) server.users.push(userId);
+      await server.save();
+      const user = await User.findOneAndUpdate(
+        { _id: userId },
+        { $addToSet: { servers: serverId } },
+      );
+      user._doc.role = await Role.findOne({ _id: server.defaultRole });
+      io.to(`server-${serverId}`).emit("serverJoin", { user, serverId });
     }
+  } catch (e) {
+    throw new InternalServerError();
+  }
 
-    return server;
-}
+  return server;
+};

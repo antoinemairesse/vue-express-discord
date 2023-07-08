@@ -4,9 +4,6 @@ export default class Servers extends Repository {
   getAll() {
     return this.$axios.get(this.resource);
   }
-  get(id) {
-    return this.$axios.get(`${this.resource}/${id}`);
-  }
   getChannels(id) {
     return this.$axios.get(`${this.resource}/${id}/channels`);
   }

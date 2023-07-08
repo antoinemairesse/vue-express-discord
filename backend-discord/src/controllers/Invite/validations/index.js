@@ -1,28 +1,31 @@
-const Joi = require('joi');
-const objectId = require('../../../utils/ObjectId');
+const Joi = require("joi");
+const objectId = require("../../../utils/ObjectId");
 
 const createInvite = {
-    body: Joi.object().keys({
-        maxAge: Joi.number(),
-        neverExpires: Joi.bool(),
-        server: Joi.string().custom(objectId).required()
-    })
+  body: Joi.object().keys({
+    maxAge: Joi.number(),
+    neverExpires: Joi.bool(),
+    server: Joi.string().custom(objectId).required(),
+  }),
 };
 
 const getInvite = {
-    params: Joi.object().keys({
-        code: Joi.string().length(parseInt(process.env.NANOID_LENGTH)).required()
-    })
+  params: Joi.object().keys({
+    code: Joi.string().length(parseInt(process.env.NANOID_LENGTH)).required(),
+  }),
+  query: Joi.object().keys({
+    userId: Joi.string().custom(objectId).required(),
+  }),
 };
 
 const acceptInvite = {
-    body: Joi.object().keys({
-        code: Joi.string().length(parseInt(process.env.NANOID_LENGTH)).required()
-    })
-}
+  body: Joi.object().keys({
+    code: Joi.string().length(parseInt(process.env.NANOID_LENGTH)).required(),
+  }),
+};
 
 module.exports = {
-    createInvite,
-    getInvite,
-    acceptInvite
+  createInvite,
+  getInvite,
+  acceptInvite,
 };

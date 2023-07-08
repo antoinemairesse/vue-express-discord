@@ -15,4 +15,7 @@ export default class Repository {
   delete(id) {
     return this.$axios.delete(`${this.resource}/${id}`);
   }
+  get(id, params) {
+    return this.$axios.get(`${this.resource}/${id}`, { params });
+  }
 }

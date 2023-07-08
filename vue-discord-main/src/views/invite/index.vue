@@ -77,7 +77,7 @@
 
 <script>
 import serverPhotoURL from "../../mixins/serverPhotoURL";
-import { mapActions } from "vuex";
+import { mapActions, mapState } from "vuex";
 import userPhotoURL from "../../mixins/userPhotoURL";
 
 export default {
@@ -94,6 +94,9 @@ export default {
       members: 0,
     };
   },
+  computed: {
+    ...mapState("auth", ["user"]),
+  },
   mounted() {
     this.getAuthUser().then(async () => {
       const code = this.$route.query.code;
@@ -101,23 +104,18 @@ export default {
       let invite = null;
 
       try {
-        invite = (await this.$api.invites.get(code)).data;
+        invite = (await this.$api.invites.get(code, { userId: this.user._id }))
+          .data;
       } catch (e) {
         this.invalid = true;
         return;
       }
 
-      this.sender = (await this.$api.users.get(invite.sender)).data;
-      const server = (await this.$api.servers.get(invite.server)).data;
+      this.sender = invite.sender;
+      this.server = invite.server;
+      this.members = invite.members;
+      this.ban = invite.banned;
 
-      this.members = server.members.length;
-      this.server = server;
-
-      await this.$api.servers
-        .isUserBanned(server._id, this.$store.state.auth.user?._id)
-        .then((response) => {
-          this.ban = response.data.isUserBanned;
-        });
       this.loading = false;
     });
   },
