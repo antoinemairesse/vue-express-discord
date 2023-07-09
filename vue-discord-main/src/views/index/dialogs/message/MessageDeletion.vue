@@ -53,12 +53,11 @@ import { useMessage } from "naive-ui";
 import { ErrorMessage, Field, Form } from "vee-validate";
 import moment from "moment";
 import DialogWrapper from "../../../../components/dialogWrapper.vue";
-import userPhotoURL from "@/mixins/userPhotoURL";
-import errorMessage from "@/mixins/errorMessage";
+import photoURL from "@/mixins/photoURL";
 
 export default {
   name: "MessageDeletion",
-  mixins: [userPhotoURL, errorMessage],
+  mixins: [photoURL],
   components: { DialogWrapper, Form, Field, ErrorMessage },
   data() {
     return {
@@ -78,7 +77,6 @@ export default {
     _delete() {
       this.$api.messages
         .delete(this.msg?._id)
-        .catch((e) => this.errorMessage(e, "message.delete_error"))
         .finally(() => (this.show = false));
     },
   },

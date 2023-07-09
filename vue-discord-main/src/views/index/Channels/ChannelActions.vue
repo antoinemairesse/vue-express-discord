@@ -1,23 +1,6 @@
 <template>
   <div class="flex gap-1">
     <n-tooltip
-      v-if="permissions?.deleteChannels || channel.creator === user?._id"
-      trigger="hover"
-      placement="top"
-      :duration="0"
-    >
-      <template #trigger>
-        <i
-          :class="{
-            '!block': selectedChannel && channel._id === selectedChannel._id,
-          }"
-          class="group-hover:block hidden hover:text-white_500 ri-delete-bin-2-line"
-          @click.stop="$emit('delete')"
-        />
-      </template>
-      {{ $t("channel.delete") }}
-    </n-tooltip>
-    <n-tooltip
       v-if="permissions?.editChannels || channel.creator === user?._id"
       trigger="hover"
       placement="top"
@@ -33,6 +16,23 @@
         />
       </template>
       {{ $t("channel.edit") }}
+    </n-tooltip>
+    <n-tooltip
+      v-if="permissions?.deleteChannels || channel.creator === user?._id"
+      trigger="hover"
+      placement="top"
+      :duration="0"
+    >
+      <template #trigger>
+        <i
+          :class="{
+            '!block': selectedChannel && channel._id === selectedChannel._id,
+          }"
+          class="group-hover:block hidden hover:text-white_500 ri-delete-bin-2-line"
+          @click.stop="$emit('delete')"
+        />
+      </template>
+      {{ $t("channel.delete") }}
     </n-tooltip>
   </div>
 </template>

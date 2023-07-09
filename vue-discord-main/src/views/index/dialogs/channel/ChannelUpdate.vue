@@ -26,11 +26,9 @@ import { useMessage } from "naive-ui";
 import { ErrorMessage, Field, Form } from "vee-validate";
 import * as yup from "yup";
 import DialogWrapper from "../../../../components/dialogWrapper.vue";
-import errorMessage from "@/mixins/errorMessage";
 
 export default {
   name: "ChannelUpdate",
-  mixins: [errorMessage],
   components: { DialogWrapper, Form, Field, ErrorMessage },
   data() {
     const schema = yup.object({
@@ -52,7 +50,6 @@ export default {
     update(data) {
       this.$api.channels
         .update(this.channel?._id, data)
-        .catch((e) => this.errorMessage(e, "channel.edit_error"))
         .finally(() => (this.show = false));
     },
   },

@@ -56,13 +56,13 @@ import ServerUpdate from "../dialogs/server/ServerUpdate.vue";
 import ServerDeletion from "../dialogs/server/ServerDeletion.vue";
 import ServerInvite from "../dialogs/server/ServerInvite.vue";
 import ServerLeave from "../dialogs/server/ServerLeave.vue";
-import serverPhotoURL from "../../../mixins/serverPhotoURL";
 import ContextMenu from "../../../components/ContextMenu.vue";
 import Item from "./item.vue";
+import photoURL from "@/mixins/photoURL";
 
 export default {
   name: "ServerBar",
-  mixins: [serverPhotoURL],
+  mixins: [photoURL],
   mounted() {
     this.getServers();
   },

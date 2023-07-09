@@ -76,13 +76,12 @@
 </template>
 
 <script>
-import serverPhotoURL from "../../mixins/serverPhotoURL";
 import { mapActions, mapState } from "vuex";
-import userPhotoURL from "../../mixins/userPhotoURL";
+import photoURL from "@/mixins/photoURL";
 
 export default {
   name: "index",
-  mixins: [serverPhotoURL, userPhotoURL],
+  mixins: [photoURL],
   data() {
     return {
       code: null,

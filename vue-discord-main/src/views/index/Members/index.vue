@@ -64,7 +64,7 @@
 <script>
 import { NBadge } from "naive-ui";
 import { mapGetters, mapState } from "vuex";
-import userPhotoURL from "../../../mixins/userPhotoURL";
+import photoURL from "@/mixins/photoURL";
 import ContextMenu from "../../../components/ContextMenu.vue";
 import KickUser from "../dialogs/server/kickUser.vue";
 import BanUser from "../dialogs/server/banUser.vue";
@@ -72,7 +72,7 @@ import BanUser from "../dialogs/server/banUser.vue";
 export default {
   name: "index",
   components: { ContextMenu, NBadge, KickUser, BanUser },
-  mixins: [userPhotoURL],
+  mixins: [photoURL],
   data() {
     return {
       contextMenuItem: null,

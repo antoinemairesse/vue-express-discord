@@ -26,11 +26,9 @@ import { useMessage } from "naive-ui";
 import { ErrorMessage, Field, Form } from "vee-validate";
 import { mapState } from "vuex";
 import DialogWrapper from "../../../../components/dialogWrapper.vue";
-import errorMessage from "@/mixins/errorMessage";
 
 export default {
   name: "kickUser",
-  mixins: [errorMessage],
   components: { DialogWrapper, Form, Field, ErrorMessage },
   data() {
     return {
@@ -52,7 +50,6 @@ export default {
     kick() {
       this.$api.servers
         .kick(this.selectedServer?._id, this.user?._id)
-        .catch((e) => this.errorMessage(e, "server.kick_error"))
         .finally(() => (this.show = false));
     },
   },

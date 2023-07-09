@@ -73,7 +73,7 @@
 <script>
 import moment from "moment";
 import { mapActions, mapGetters, mapState } from "vuex";
-import userPhotoURL from "../../../mixins/userPhotoURL";
+import photoURL from "@/mixins/photoURL";
 import EditForm from "./editForm.vue";
 import { NModal } from "naive-ui";
 
@@ -81,7 +81,7 @@ export default {
   name: "Message",
   components: { EditForm, NModal },
   emits: ["delete"],
-  mixins: [userPhotoURL],
+  mixins: [photoURL],
   props: {
     message: null,
     sender: null,

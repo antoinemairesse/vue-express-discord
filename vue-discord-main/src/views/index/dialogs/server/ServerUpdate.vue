@@ -30,11 +30,9 @@ import { ErrorMessage, Field, Form } from "vee-validate";
 import * as yup from "yup";
 import ImageUpload from "../../../../components/imageUpload.vue";
 import DialogWrapper from "../../../../components/dialogWrapper.vue";
-import errorMessage from "@/mixins/errorMessage";
 
 export default {
   name: "ServerUpdate",
-  mixins: [errorMessage],
   components: { DialogWrapper, ImageUpload, Form, Field, ErrorMessage },
   data() {
     const schema = yup.object({
@@ -78,7 +76,6 @@ export default {
 
       this.$api.servers
         .update(this.server?._id, fd)
-        .catch((e) => this.errorMessage(e, "server.edit_error"))
         .finally(() => this.reset());
     },
   },

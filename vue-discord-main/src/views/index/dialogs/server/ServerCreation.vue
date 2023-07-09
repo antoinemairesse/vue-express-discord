@@ -35,11 +35,9 @@ import { mapActions } from "vuex";
 import ImageUpload from "../../../../components/imageUpload.vue";
 import DialogWrapper from "../../../../components/dialogWrapper.vue";
 import { useMessage } from "naive-ui";
-import errorMessage from "@/mixins/errorMessage";
 
 export default {
   name: "ServerCreation",
-  mixins: [errorMessage],
   components: { DialogWrapper, ImageUpload, Form, Field, ErrorMessage },
   data() {
     const schema = yup.object({
@@ -66,14 +64,12 @@ export default {
         fd.append(key, value);
       }
 
-      this.createServer(fd)
-        .catch((e) => this.errorMessage(e, "server.create_error"))
-        .finally(() => {
-          this.show = false;
-          this.$refs.servername.reset();
-          this.imageURL = null;
-          this.image = null;
-        });
+      this.createServer(fd).finally(() => {
+        this.show = false;
+        this.$refs.servername.reset();
+        this.imageURL = null;
+        this.image = null;
+      });
     },
   },
 };

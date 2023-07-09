@@ -27,12 +27,12 @@
 import { mapState } from "vuex";
 import { NBadge } from "naive-ui";
 import Settings from "../dialogs/settings.vue";
-import userPhotoURL from "../../../mixins/userPhotoURL";
+import photoURL from "@/mixins/photoURL";
 
 export default {
   name: "userControls",
   components: { Settings, NBadge },
-  mixins: [userPhotoURL],
+  mixins: [photoURL],
   computed: {
     ...mapState("auth", ["user"]),
   },

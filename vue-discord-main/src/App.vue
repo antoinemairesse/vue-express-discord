@@ -1,21 +1,15 @@
 <script>
-import { NWatermark } from "naive-ui";
+import { NMessageProvider } from "naive-ui";
 
 export default {
-  components: { NWatermark },
+  components: { NMessageProvider },
 };
 </script>
 
 <template>
-  <n-watermark
-    content=""
-    cross
-    fullscreen
-    :font-size="20"
-    :width="500"
-    :height="500"
-  />
-  <RouterView />
+  <n-message-provider>
+    <RouterView />
+  </n-message-provider>
 </template>
 
 <style scoped></style>

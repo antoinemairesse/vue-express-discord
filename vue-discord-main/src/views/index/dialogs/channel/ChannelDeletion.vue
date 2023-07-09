@@ -24,11 +24,9 @@
 import { useMessage } from "naive-ui";
 import { ErrorMessage, Field, Form } from "vee-validate";
 import DialogWrapper from "../../../../components/dialogWrapper.vue";
-import errorMessage from "@/mixins/errorMessage";
 
 export default {
   name: "ChannelDeletion",
-  mixins: [errorMessage],
   components: { DialogWrapper, Form, Field, ErrorMessage },
   data() {
     return {
@@ -45,7 +43,6 @@ export default {
     _delete() {
       this.$api.channels
         .delete(this.channel?._id)
-        .catch((e) => this.errorMessage(e, "channel.delete_error"))
         .finally(() => (this.show = false));
     },
   },

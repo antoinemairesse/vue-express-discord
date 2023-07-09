@@ -32,11 +32,9 @@ import { useMessage } from "naive-ui";
 import { ErrorMessage, Field, Form } from "vee-validate";
 import * as yup from "yup";
 import DialogWrapper from "../../../../components/dialogWrapper.vue";
-import errorMessage from "@/mixins/errorMessage";
 
 export default {
   name: "ServerDeletion",
-  mixins: [errorMessage],
   components: { DialogWrapper, Form, Field, ErrorMessage },
   data() {
     return {
@@ -61,7 +59,6 @@ export default {
     _delete() {
       this.$api.servers
         .delete(this.server?._id)
-        .catch((e) => this.errorMessage(e, "server.delete_error"))
         .finally(() => (this.show = false));
     },
   },

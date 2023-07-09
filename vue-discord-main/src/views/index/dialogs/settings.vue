@@ -48,11 +48,9 @@ import ImageUpload from "../../../components/imageUpload.vue";
 import DialogWrapper from "../../../components/dialogWrapper.vue";
 import { mapState } from "vuex";
 import { changeLang } from "@/i18n/i18n.service";
-import errorMessage from "@/mixins/errorMessage";
 
 export default {
   name: "settings",
-  mixins: [errorMessage],
   components: {
     DialogWrapper,
     ImageUpload,
@@ -104,10 +102,7 @@ export default {
         fd.append(key, value);
       }
 
-      this.$api.users
-        .update(fd)
-        .catch((e) => this.errorMessage(e, "settings.edit_error"))
-        .finally(() => (this.show = false));
+      this.$api.users.update(fd).finally(() => (this.show = false));
     },
     logout() {
       this.$api.auth.logout().then(() => {
